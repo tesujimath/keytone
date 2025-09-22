@@ -1,0 +1,1186 @@
+CONCERT,CONCERT PIANO,S01,Stage Grand,84,16,1
+,,S02,Deep Concert,84,16,2
+,,S03,Eastcoast Studio,84,16,3
+,,S04,Contemp Concerto,84,16,4
+,,S05,Symphony Hall,84,16,5
+,,S06,Bold Beauty,84,16,6
+,,S07,Aco Grand1,84,16,7
+,,S08,Aco Grand2,84,16,8
+,,S09,Aco Grand3,84,16,9
+,,S10,Aco Grand4,84,16,10
+,,S11,Aco Grand 5,84,16,11
+,,S12,Aco Grand 6,84,16,12
+,,S13,Aco Grand 7,84,16,13
+,,S14,Aco Grand 8,84,16,14
+,,S15,Aco Grand 9,84,16,15
+,,S16,Aco Grand 10,84,16,16
+,,S17,at Stage,84,16,17
+,,SA01,German Concert,84,17,1
+,,SA02,Bold Grand,84,17,2
+,,SA03,Calm Focus,84,17,3
+,,SA04,Open Warm,84,17,4
+,,SA05,Open Warm 2,84,17,5
+,,SA06,Studio Pop,84,17,6
+,,SA07,Studio Rock,84,17,7
+,,SA08,Ballad Warm,84,17,8
+,,SA09,Bright & Clear,84,17,9
+,,SA10,Feelin' Hopping,84,17,10
+,,SA11,Short Stick,84,17,11
+,,SA12,Quiet Phrase,84,17,12
+,,SA13,Bright Baby,84,17,13
+,,SA14,Deep Open,84,17,14
+,,SA15,Presence,84,17,15
+,,SA16,Water Piano,84,17,16
+,,SA17,Low Lifted Cncrt,84,17,17
+,,SB01,Recital Upright,84,18,1
+,,SB02,Pop Studio Pno,84,18,2
+,,SB03,Gentle Dream,84,18,3
+,,SB04,Parlor Upright,84,18,4
+,,SB05,Reso-swell Uprt,84,18,5
+,,SB06,Open-Reso,84,18,6
+,,SB07,Rock Upright,84,18,7
+,,SB08,Reverie Piano,84,18,8
+,,SB09,Etude Dreamer,84,18,9
+,,SB10,Bright Sky Piano,84,18,10
+,,SB11,Open Aire,84,18,11
+,,SB12,Faraway Harmony,84,18,12
+,,SB13,Parlor Pound,84,18,13
+,,SB14,Resonant Closet,84,18,14
+,,0001,Concert Grand,84,0,1
+,,0002,Bright Concert,84,0,2
+,,0003,Mellow Concert,84,0,3
+,,0004,Rock Concert Grd,84,0,4
+,,0005,Comp ConcertGrd,84,0,5
+,,0006,Concert Grd Mono,84,0,6
+,,0007,NX Concert Grand,84,0,7
+,,0008,Bright NX Concrt,84,0,8
+,,0009,Mellow NX Concrt,84,0,9
+,,0010,Rock NX Concert,84,0,10
+,,0011,Comp NX Concert,84,0,11
+,,0012,NX Concert Mono,84,0,12
+,,0013,Brilliant Grand,84,0,13
+,,0014,Hard Brill Grand,84,0,14
+,,0015,Soft Brill Grand,84,0,15
+,,0016,Rock Brill Grand,84,0,16
+,,0017,Comp Brill Grand,84,0,17
+,,0018,Brill Grand Mono,84,0,18
+,,0019,St.Piano 1,84,0,19
+,,0020,St.Piano 2,84,0,20
+,,0021,St.Piano 3,84,0,21
+,,0022,St.Piano 4,84,0,22
+,,0023,St.Piano 5,84,0,23
+,,0024,Piano 1,84,0,24
+,,0025,Piano 1 w,84,0,25
+,,0026,European Pf,84,0,26
+,,0027,Stage Piano,84,0,27
+STUDIO,STUDIO PIANO,0028,Upright Piano,84,0,28
+,,0029,Bright Upright,84,0,29
+,,0030,Mellow Upright,84,0,30
+,,0031,Rock Upright Pno,84,0,31
+,,0032,Comp Upright Pno,84,0,32
+,,0033,UprightPianoMono,84,0,33
+,,0034,Studio Grand,84,0,34
+,,0035,Bright Studio,84,0,35
+,,0036,Mellow Studio,84,0,36
+,,0037,Rock StudioGrand,84,0,37
+,,0038,Comp Studio Grd,84,0,38
+,,0039,StudioGrand Mono,84,0,39
+,,0040,Piano 2,84,0,40
+,,0041,Piano 2 w,84,0,41
+,HONKY-TONK,0042,Honky-tonk Pno 1,84,0,42
+,,0043,Honky-tonk Pno 2,84,0,43
+,,0044,Honky-tonk Pno 3,84,0,44
+,,0045,Honky-tonk Pno 4,84,0,45
+,,0046,Honky Tonk,84,0,46
+,,0047,Honky-tonk,84,0,47
+,,0048,Honky-tonk w,84,0,48
+,SA PIANO,0049,SA Piano,84,0,49
+,,0050,Modulated SA Pno,84,0,50
+,,0051,Bright SA Piano,84,0,51
+,,0052,Comp SA Piano,84,0,52
+,,0053,Phaser SA Piano,84,0,53
+,,0054,Lo-Fi SA Piano,84,0,54
+,SYNTH PIANO,0055,JD Piano,84,0,55
+,,0056,Bright JD Piano,84,0,56
+,,0057,Rock JD Piano,84,0,57
+,,0058,Comp JD Piano,84,0,58
+,,0059,Comp JD Piano2,84,0,59
+,,0060,Detuned JD Piano,84,0,60
+,,0061,Chorus JD Piano,84,0,61
+,,0062,Phaser JD Piano,84,0,62
+,,0063,Lo-Fi JD Piano,84,0,63
+,,0064,Brite Piano,84,0,64
+,,0065,Pop Piano 1,84,0,65
+,,0066,Pop Piano 2,84,0,66
+,,0067,Pop Piano 3,84,0,67
+,,0068,LoFi Piano,84,0,68
+VINTAGE,TINE E.PIANO,2001,1975 Tine EP.,84,8,90
+,,2002,1979 Tine EP.,84,8,91
+,,2003,1975 Mellow EP,84,8,92
+,,2004,1979 Bright EP,84,8,93
+,,2005,1975 Clarity EP,84,8,94
+,,2006,NYC Chorus EP,84,8,95
+,,2007,1975 Phased EP,84,8,96
+,,2008,1979 Phased EP,84,8,97
+,,2009,1979 Envelope EP,84,8,98
+,,2010,1975 Sweet Echo,84,8,99
+,,2011,1979 Flying Echo,84,8,100
+,,2012,1975 ModDelay EP,84,8,101
+,,2013,1975 Driven EP,84,8,102
+,,2014,1979 Comp EP,84,8,103
+,,0069,Tine E.Piano,84,0,69
+,,0070,Silver Top EP.,84,0,70
+,,0071,Tine EP MkI.,84,0,71
+,,0072,Tine EP MkII.,84,0,72
+,,0073,Dyno E.Piano.,84,0,73
+,,0074,Small Case Tine,84,0,74
+,,0075,Soft Tine EP,84,0,75
+,,0076,Chorus Tine EP,84,0,76
+,,0077,Chorus Tine EP2,84,0,77
+,,0078,Chorus Dyno EP,84,0,78
+,,0079,Tremolo Cho Tine,84,0,79
+,,0080,Phaser Tine EP,84,0,80
+,,0081,Phaser Dyno EP,84,0,81
+,,0082,Trem Phaser Tine,84,0,82
+,,0083,Trem Phaser Dyno,84,0,83
+,,0084,Rotary Tine EP,84,0,84
+,,0085,TouchWah TineEP,84,0,85
+,,0086,Auto Wah Tine EP,84,0,86
+,,0087,Echo Tine EP,84,0,87
+,,0088,Echo->Trem Tine,84,0,88
+,,0089,Echo->RotaryTine,84,0,89
+,,0090,Comp Tine EP,84,0,90
+,,0091,Comp Tine EP2,84,0,91
+,,0092,Comp Silver Top,84,0,92
+,,0093,Driven Tine EP,84,0,93
+,,0094,Driven SilverTop,84,0,94
+,,0095,Stage EP 1,84,0,95
+,,0096,Stage EP 2,84,0,96
+,,0097,Stage EP Trm,84,0,97
+,,0098,Tremolo EP 1,84,0,98
+,,0099,E.Piano 3,84,0,99
+,,0100,E.Piano 4,84,0,100
+,,0101,E.Piano 5,84,0,101
+,,0102,E.Piano 6,84,0,102
+,,0103,E.Piano 7,84,0,103
+,,0104,E.Piano 8,84,0,104
+,,0105,Dyno EP,84,0,105
+,,0106,Dyno EP Trm,84,0,106
+,,0107,Tremolo EP 2,84,0,107
+,,0108,Back2the60s,84,0,108
+,,0109,Tine EP,84,0,109
+,,0110,E.Piano 1,84,0,110
+,,0111,St.Soft EP,84,0,111
+,REED E.PIANO,0112,Reed E.Piano,84,0,112
+,,0113,Round Reed EP,84,0,113
+,,0114,Driven Reed EP,84,0,114
+,,0115,Driven Reed EP2,84,0,115
+,,0116,Comp Reed EP,84,0,116
+,,0117,Comp Reed EP2,84,0,117
+,,0118,Rotary Reed EP,84,0,118
+,,0119,Tremolo Reed EP,84,0,119
+,,0120,Chorus Reed EP,84,0,120
+,,0121,Phaser Reed EP,84,0,121
+,,0122,Echo Reed EP,84,0,122
+,,0123,Echo->Trem Reed,84,0,123
+,,0124,TouchWah ReedEP,84,0,124
+,,0125,AutoWah Reed EP,84,0,125
+,,0126,Pnet Tee,84,0,126
+,,0127,R&B Pnet,84,0,127
+,,0128,Wurly EP,84,0,128
+,,0129,Wurly EP Trm,84,1,1
+,,0130,Curly Wurly,84,1,2
+,,0131,Super Wurly,84,1,3
+,,0132,Wurly,84,1,4
+,E.GRAND,0133,E.Grand 1,84,1,5
+,,0134,E.Grand 2,84,1,6
+,,0135,E.Grand 3,84,1,7
+,,0136,Piano 3,84,1,8
+,,0137,Piano 3 w,84,1,9
+MODERN,SA E.PIANO,2015,RD-1000 Piano1,84,8,104
+,,2016,RD-1000 Piano2,84,8,105
+,,2017,RD-1000 Piano3,84,8,106
+,,2018,RD-1000 Harpsi,84,8,107
+,,2019,RD-1000 Clav,84,8,108
+,,2020,RD-1000 Vibra.,84,8,109
+,,2021,RD-1000 E.Piano1,84,8,110
+,,2022,RD-1000 E.Piano2,84,8,111
+,,2023,RD-1000 Cho Pno,84,8,112
+,,2024,RD-1000 Cho EP1,84,8,113
+,,2025,RD-1000 Cho EP2,84,8,114
+,,0138,SA E.Piano,84,1,10
+,,0139,SA E.Piano2,84,1,11
+,,0140,SA E.Piano3,84,1,12
+,,0141,SA E.Piano4,84,1,13
+,,0142,SA E.Piano5,84,1,14
+,,0143,SA EP 1,84,1,15
+,,0144,SA EP 2,84,1,16
+,,0145,Psy EP,84,1,17
+,FM E.PIANO,0146,FM E.Piano,84,1,18
+,,0147,Woody FM E.Piano,84,1,19
+,,0148,Bright FM EP,84,1,20
+,,0149,Detuned FM EP,84,1,21
+,,0150,Tremolo FM EP,84,1,22
+,,0151,EP Legend 3,84,1,23
+,,0152,80's EP,84,1,24
+,,0153,FM EP 1,84,1,25
+,,0154,FM EP 2,84,1,26
+,MODERN E.PIANO,0155,Hit EP,84,1,27
+,,0156,EP Legend 1,84,1,28
+,,0157,EP Belle,84,1,29
+,,0158,Sinus EP,84,1,30
+,,0159,Spirit Tines,84,1,31
+,,0160,E.Piano 2,84,1,32
+,,0161,Detuned EP,84,1,33
+,,0162,St.FM EP,84,1,34
+,,0163,EP Legend 2,84,1,35
+,,0164,EP Phase,84,1,36
+,,0165,Rox Piano 1,84,1,37
+,,0166,Rox Piano 2,84,1,38
+,,0167,Crummy Piano,84,1,39
+,,0168,Rox Lute,84,1,40
+CLAV,CLAV,0169,Clav CB,84,1,41
+,,0170,Clav CA,84,1,42
+,,0171,Phaser Clav,84,1,43
+,,0172,Phaser Clav2,84,1,44
+,,0173,Touch Wah Clav,84,1,45
+,,0174,Auto Wah Clav,84,1,46
+,,0175,Auto Wah Clav2,84,1,47
+,,0176,Comp Clav,84,1,48
+,,0177,Comp Clav2,84,1,49
+,,0178,Chorus Clav,84,1,50
+,,0179,Chorus Clav2,84,1,51
+,,0180,Chorus Clav3,84,1,52
+,,0181,Driven Clav,84,1,53
+,,0182,Driven Clav2,84,1,54
+,,0183,Clav CB Medium,84,1,55
+,,0184,Clav CA Medium,84,1,56
+,,0185,Clav CB Brillia,84,1,57
+,,0186,Clav CA Brillia,84,1,58
+,,0187,Clav CB Combo,84,1,59
+,,0188,Clav CA Combo,84,1,60
+,,0189,Clav,84,1,61
+,,0190,Clav 2,84,1,62
+,,0191,Pulse Clav,84,1,63
+,,0192,Pulse Clav 2,84,1,64
+,,0193,Sweepin Clav,84,1,65
+,,0194,Analog Clav,84,1,66
+,,0195,Biting Clav,84,1,67
+,,0196,Pulse Clv St,84,1,68
+,HARPSICHORD,0197,Natural Hps.,84,1,69
+,,0198,Harpsichord,84,1,70
+,,0199,Harpsichord2,84,1,71
+,,0200,Coupled Hps,84,1,72
+,,0201,Harpsi w,84,1,73
+,,0202,Harpsi o,84,1,74
+,,0203,Rox Harpsi,84,1,75
+,,0204,VX Harpsi,84,1,76
+,CELESTA,0205,Celesta,84,1,77
+,,0206,Farf Celeste,84,1,78
+,BELL,0207,Music Box,84,1,79
+,,0208,Music Box 2,84,1,80
+,,0209,Kalimbells,84,1,81
+,,0210,D50 Fantasy,84,1,82
+,,0211,D50 Bell,84,1,83
+,,0212,Fantasia,84,1,84
+,,0213,Org Bell,84,1,85
+,,0214,Dreambell,84,1,86
+,,0215,FM Sparkles,84,1,87
+,,0216,FM Syn Bell,84,1,88
+,,0217,FM Heaven,84,1,89
+,,0218,Dreaming Bel,84,1,90
+,,0219,Analog Bell,84,1,91
+,,0220,Music Bells,84,1,92
+,,0221,Bell 1,84,1,93
+,,0222,Bell 2,84,1,94
+,,0223,Crystal,84,1,95
+,,0224,Tinkle Bell,84,1,96
+,,0225,Icy Keys,84,1,97
+,,0226,TubularBells,84,1,98
+,,0227,TubularBell2,84,1,99
+,,0228,Church Bell,84,1,100
+,,0229,Carillon,84,1,101
+,,0230,Carillon 2,84,1,102
+,,0231,Tower Bell,84,1,103
+,,0232,Bell Ring,84,1,104
+,MALLET,0233,Vibraphone,84,1,105
+,,0234,Vibraphone 2,84,1,106
+,,0235,VibraphoneTr,84,1,107
+,,0236,Vibraphone w,84,1,108
+,,0237,Tremolo Vib,84,1,109
+,,0238,Jazz Vib,84,1,110
+,,0239,Marimba,84,1,111
+,,0240,Marimba 2,84,1,112
+,,0241,Marimba 3,84,1,113
+,,0242,Marimba w,84,1,114
+,,0243,BsMarimba 1,84,1,115
+,,0244,BsMarimba 2,84,1,116
+,,0245,Xylophone,84,1,117
+,,0246,Xylophone 2,84,1,118
+,,0247,Xylophone 3,84,1,119
+,,0248,Ethno Keys,84,1,120
+,,0249,Glockenspiel,84,1,121
+,,0250,Steel Drums,84,1,122
+,,0251,Steel Drums2,84,1,123
+,,0252,Soft StlDrm,84,1,124
+,,0253,Toy Box,84,1,125
+,,0254,Sine Mallet,84,1,126
+ORGAN,E.ORGAN,0255,TW-Organ 1,84,1,127
+,,0256,TW-Organ 2,84,1,128
+,,0257,TW-Organ 3,84,2,1
+,,0258,TW-Organ 4,84,2,2
+,,0259,TW-Organ 5,84,2,3
+,,0260,TW-Organ 6,84,2,4
+,,0261,TW-Organ 7,84,2,5
+,,0262,TW-Organ 8,84,2,6
+,,0263,TW-Organ 9,84,2,7
+,,0264,TW-Organ 10,84,2,8
+,,0265,Rock Organ 1,84,2,9
+,,0266,Rock Organ 2,84,2,10
+,,0267,Rock Organ 3,84,2,11
+,,0268,Rock Organ 4,84,2,12
+,,0269,Rock Organ 5,84,2,13
+,,0270,RotaryOrgan1,84,2,14
+,,0271,RotaryOrgan2,84,2,15
+,,0272,Perc. Organ,84,2,16
+,,0273,Perc.Organ 2,84,2,17
+,,0274,Perc.Organ 3,84,2,18
+,,0275,Perc.Organ 4,84,2,19
+,,0276,Organ 1,84,2,20
+,,0277,Trem. Organ,84,2,21
+,,0278,Organ 2,84,2,22
+,,0279,Chorus Organ,84,2,23
+,,0280,Organ 3,84,2,24
+,,0281,Animal Mod,84,2,25
+,,0282,Rising Sun,84,2,26
+,,0283,Surf Monkeys,84,2,27
+,,0284,Palisades,84,2,28
+,,0285,Kitchen Soul,84,2,29
+,,0286,BreakOnThru,84,2,30
+,,0287,Calif.Sun,84,2,31
+,,0288,Steppin' VX,84,2,32
+,,0289,Costello+Mod,84,2,33
+,,0290,Archie's Mod,84,2,34
+,,0291,Telstar VX,84,2,35
+,,0292,The Sham,84,2,36
+,,0293,Crummy Organ,84,2,37
+,,0294,VX Religion,84,2,38
+,,0295,Farfi Combo,84,2,39
+,,0296,Iron Farf,84,2,40
+,,0297,Dancin' Queen,84,2,41
+,,0298,Farf Lite,84,2,42
+,,0299,Wooly Farfy,84,2,43
+,,0300,Clark Farf,84,2,44
+,,0301,Pacemaker,84,2,45
+,,0302,Rox Organ P,84,2,46
+,,0303,Rox Organ Ph,84,2,47
+,,0304,Rox Organ PH,84,2,48
+,,0305,Rox Organ L,84,2,49
+,,0306,60's Organ,84,2,50
+,,0307,70's E.Org 1,84,2,51
+,,0308,70's E.Org 2,84,2,52
+,,0309,70's E.Organ,84,2,53
+,,0310,E.Organ 1,84,2,54
+,,0311,E.Organ 2,84,2,55
+,,0312,E.Organ 3,84,2,56
+,,0313,E.Organ 4,84,2,57
+,,0314,E.Organ 5,84,2,58
+,,0315,E.Organ 6,84,2,59
+,,0316,E.Organ 7,84,2,60
+,,0317,Theater Org,84,2,61
+,,0318,Ana Organ 1,84,2,62
+,,0319,Ana Organ 2,84,2,63
+,,0320,Ana Organ 3,84,2,64
+,,0321,Ana Organ 4,84,2,65
+,,0322,Ana Organ 5,84,2,66
+,PIPE ORGAN,0323,Puff Organ,84,2,67
+,,0324,Nason Flute,84,2,68
+,,0325,Massive Pipe,84,2,69
+,,0326,Mid Pipe Org,84,2,70
+,,0327,Grand Pipes,84,2,71
+,,0328,Church Org 1,84,2,72
+,,0329,Church Org 2,84,2,73
+,,0330,Church Org 3,84,2,74
+,,0331,Reed Organ,84,2,75
+,ACCORDION,0332,Accordion Fr,84,2,76
+,,0333,Accordion It,84,2,77
+,,0334,AccordionIt2,84,2,78
+,,0335,Musette,84,2,79
+,,0336,Vodkakordion,84,2,80
+,,0337,Bandoneon,84,2,81
+,HARMONICA,0338,Harmonica,84,2,82
+,,0339,Harmonica 2,84,2,83
+STRINGS,ENSEMBLE STRINGS,0340,Slow FullStrings,84,2,84
+,,0341,Full Strings,84,2,85
+,,0342,GX Strings,84,2,86
+,,0343,Mood Strings,84,2,87
+,,0344,Slow Strings,84,2,88
+,,0345,DecayStrings,84,2,89
+,,0346,Strings,84,2,90
+,,0347,Strings 2,84,2,91
+,,0348,Strings 3,84,2,92
+,,0349,Strings 4,84,2,93
+,,0350,Strings 5,84,2,94
+,,0351,Strings 6,84,2,95
+,,0352,Stage Str 1,84,2,96
+,,0353,Stage Str 2,84,2,97
+,,0354,Pop Str,84,2,98
+,,0355,Hall Strings,84,2,99
+,,0356,Marc.Str,84,2,100
+,,0357,StringsStacc,84,2,101
+,,0358,Oct Strings,84,2,102
+,,0359,Tremolo Str,84,2,103
+,,0360,Tron Strings,84,2,104
+,,0361,Tron Strings2,84,2,105
+,,0362,Symphonic Tron,84,2,106
+,,0363,Moody Tron,84,2,107
+,,0364,TapeStrings1,84,2,108
+,,0365,TapeStrings2,84,2,109
+,,0366,Hybrid Str,84,2,110
+,,0367,PizzicatoStr,84,2,111
+,,0368,Pizz 1,84,2,112
+,,0369,Pizz 2,84,2,113
+,SOLO STRINGS,0370,Violin,84,2,114
+,,0371,Violin 2,84,2,115
+,,0372,Slow Violin,84,2,116
+,,0373,Bright Vln,84,2,117
+,,0374,Viola,84,2,118
+,,0375,Cello,84,2,119
+,,0376,Bright Vc,84,2,120
+,,0377,Contrabass,84,2,121
+,,0378,Fiddle,84,2,122
+,,0379,Tron Violins,84,2,123
+,,0380,Tron Cello,84,2,124
+,ORCHESTRAL,0381,Orchestra,84,2,125
+,,0382,Orc.Unison 1,84,2,126
+,,0383,Orc.Unison 2,84,2,127
+,,0384,Full Orc,84,2,128
+PAD/CHOIR,SYNTH PAD/STR,0385,Wide Soft Pad,84,3,1
+,,0386,Silky Way,84,3,2
+,,0387,CalmChoirPad,84,3,3
+,,0388,Decay Choir Pad,84,3,4
+,,0389,Soft Pad 1,84,3,5
+,,0390,Soft Pad 2,84,3,6
+,,0391,Soft Pad 3,84,3,7
+,,0392,Soft Pad 4,84,3,8
+,,0393,Soft Pad 5,84,3,9
+,,0394,Soft Pad 6,84,3,10
+,,0395,Soft Pad 7,84,3,11
+,,0396,Soft Pad 8,84,3,12
+,,0397,Soft Pad 9,84,3,13
+,,0398,Soft Pad 10,84,3,14
+,,0399,Dreamheaven,84,3,15
+,,0400,Oct Heaven,84,3,16
+,,0401,VintageStr 1,84,3,17
+,,0402,VintageStr 2,84,3,18
+,,0403,VintageStr 3,84,3,19
+,,0404,VintageStr 4,84,3,20
+,,0405,VintageStr 5,84,3,21
+,,0406,VintageStr 6,84,3,22
+,,0407,VintageStr 7,84,3,23
+,,0408,JX Strings,84,3,24
+,,0409,JP Strings 1,84,3,25
+,,0410,JP Strings 2,84,3,26
+,,0411,106 Strings,84,3,27
+,,0412,Sol Strings,84,3,28
+,,0413,Rhapsody STR,84,3,29
+,,0414,PWM Str 1,84,3,30
+,,0415,PWM Str 2,84,3,31
+,,0416,PWM Str 3,84,3,32
+,,0417,Fading Str,84,3,33
+,,0418,ParadisePad,84,3,34
+,,0419,80s Strings,84,3,35
+,,0420,Stringship,84,3,36
+,,0421,Airy Pad,84,3,37
+,,0422,Neo RS-202,84,3,38
+,,0423,Sawtooth Str,84,3,39
+,,0424,Syn.Strings1,84,3,40
+,,0425,Syn.Strings2,84,3,41
+,,0426,Syn.Strings3,84,3,42
+,,0427,Pulse Pad,84,3,43
+,,0428,Hollow Pad 1,84,3,44
+,,0429,WarmHeaven 1,84,3,45
+,,0430,WarmHeaven 2,84,3,46
+,,0431,Heaven Pad 1,84,3,47
+,,0432,Heaven Pad 2,84,3,48
+,,0433,Heaven Pad 3,84,3,49
+,,0434,Heaven Pad 4,84,3,50
+,,0435,FineWinePad1,84,3,51
+,,0436,FineWinePad2,84,3,52
+,,0437,5th Pad 1,84,3,53
+,,0438,5th Pad 2,84,3,54
+,,0439,Nu Epic Pad,84,3,55
+,,0440,Angelis Pad,84,3,56
+,,0441,TrnsSweepPad,84,3,57
+,,0442,Giant Sweep,84,3,58
+,,0443,Voyager,84,3,59
+,,0444,Digital Pad,84,3,60
+,,0445,NuSoundtrack,84,3,61
+,,0446,Xadecimal,84,3,62
+,,0447,Strobe Pad,84,3,63
+,,0448,BUBBLE 2,84,3,64
+,,0449,BUBBLE 3,84,3,65
+,,0450,Soft PWM Pad,84,3,66
+,,0451,Org Pad,84,3,67
+,,0452,Hollow Pad 2,84,3,68
+,,0453,SavannaPad 1,84,3,69
+,,0454,SavannaPad 2,84,3,70
+,,0455,SavannaPad 3,84,3,71
+,,0456,PWM Pad 2,84,3,72
+,,0457,Str Machine,84,3,73
+,,0458,Reso Pad,84,3,74
+,,0459,BPF Pad,84,3,75
+,,0460,Sweep Pad,84,3,76
+,,0461,Sweep Pad 2,84,3,77
+,,0462,Sweep Pad 3,84,3,78
+,,0463,Sweep Pad 4,84,3,79
+,,0464,Scoop Pad 1,84,3,80
+,,0465,Scoop Pad 2,84,3,81
+,,0466,Brite Wine,84,3,82
+,,0467,Wine Pad,84,3,83
+,,0468,Warm Pad,84,3,84
+,,0469,Sine Pad,84,3,85
+,,0470,Bowed Glass,84,3,86
+,,0471,Metal Pad,84,3,87
+,,0472,Halo Pad,84,3,88
+,,0473,Soundtrack,84,3,89
+,,0474,Star Theme,84,3,90
+,SYNTH BELLPAD,0475,Air Key 1,84,3,91
+,,0476,Air Key 2,84,3,92
+,,0477,Sweet Keys,84,3,93
+,,0478,Soft Bell,84,3,94
+,,0479,Stacc Heaven,84,3,95
+,,0480,DigitalDream,84,3,96
+,,0481,Analog Dream,84,3,97
+,,0482,Harp Pad,84,3,98
+,,0483,Ice Rain,84,3,99
+,,0484,Atmosphere,84,3,100
+,,0485,Brightness,84,3,101
+,,0486,Dreaming Box,84,3,102
+,VOX CHOIR,0487,Large Choir,84,3,103
+,,0488,GX Choir,84,3,104
+,,0489,Choir Aahs,84,3,105
+,,0490,Chorus Aahs,84,3,106
+,,0491,Choir Pad,84,3,107
+,,0492,Angels Choir,84,3,108
+,,0493,Aerial Choir,84,3,109
+,,0494,Voice Oohs,84,3,110
+,,0495,Doo Pad,84,3,111
+,,0496,Humming,84,3,112
+,,0497,Humming 2,84,3,113
+,,0498,Humming 3,84,3,114
+,,0499,Gospel Hum,84,3,115
+,,0500,Decay Choir,84,3,116
+,,0501,Vox Pad 1,84,3,117
+,,0502,Vox Pad 2,84,3,118
+,,0503,Dreamvox 1,84,3,119
+,,0504,Dreamvox 2,84,3,120
+,,0505,80s Vox,84,3,121
+,,0506,SynVox,84,3,122
+,,0507,SynVox 2,84,3,123
+,,0508,SynVox 3,84,3,124
+,,0509,Mini Vox,84,3,125
+,,0510,Chipmunk,84,3,126
+,,0511,Sample Opera,84,3,127
+,,0512,Sad Ceremony,84,3,128
+,,0513,5th Voice,84,4,1
+,,0514,Sop Vox,84,4,2
+,,0515,Analog Voice,84,4,3
+,,0516,Space Voice,84,4,4
+,,0517,Itopia,84,4,5
+,,0518,Tron Choir,84,4,6
+,,0519,Tron Vox,84,4,7
+,SCAT,0520,Jazz Scat 1,84,4,8
+,,0521,Jazz Scat 2,84,4,9
+BASS,AC.BASS,0522,Acoustic Bs,84,4,10
+,,0523,Acoustic Bs2,84,4,11
+,,0524,Acoustic Bs3,84,4,12
+,,0525,String Slap,84,4,13
+,E.BASS,0526,Fingered Bs,84,4,14
+,,0527,Fingered Bs2,84,4,15
+,,0528,Fingered Bs3,84,4,16
+,,0529,Fingered Bs4,84,4,17
+,,0530,Pick Bass,84,4,18
+,,0531,Picked Bass,84,4,19
+,,0532,Fretless Bs,84,4,20
+,,0533,FretlessBs 2,84,4,21
+,,0534,FretlessBs 3,84,4,22
+,,0535,Finger Slap,84,4,23
+,,0536,Finger Slap2,84,4,24
+,,0537,Slap Bass 1,84,4,25
+,,0538,Slap Bass 2,84,4,26
+,,0539,Return2Base!,84,4,27
+,SYNTH BASS,0540,MG Bass 1,84,4,28
+,,0541,MG Bass 2,84,4,29
+,,0542,MG Bass 3,84,4,30
+,,0543,Modular Bs 1,84,4,31
+,,0544,Modular Bs 2,84,4,32
+,,0545,PWM Bass 1,84,4,33
+,,0546,PWM Bass 2,84,4,34
+,,0547,Big Mini,84,4,35
+,,0548,Fat Analog,84,4,36
+,,0549,Spike Bass,84,4,37
+,,0550,SH Bass,84,4,38
+,,0551,Intrusive Bs,84,4,39
+,,0552,Synth Bass 1,84,4,40
+,,0553,Synth Bass 2,84,4,41
+,,0554,Synth Bass 3,84,4,42
+,,0555,Synth Bass 4,84,4,43
+,,0556,Synth Bass 5,84,4,44
+,,0557,Synth Bass 6,84,4,45
+,,0558,Synth Bass 7,84,4,46
+,,0559,Synth Bass 8,84,4,47
+,,0560,Synth Bass 9,84,4,48
+,,0561,Synth Bass10,84,4,49
+,,0562,Synth Bass11,84,4,50
+,,0563,Synth Bass12,84,4,51
+,,0564,Synth Bass13,84,4,52
+,,0565,Synth Bass14,84,4,53
+,,0566,Reso Bass 1,84,4,54
+,,0567,Reso Bass 2,84,4,55
+,,0568,Reso Bass 3,84,4,56
+,,0569,Reso Bass 4,84,4,57
+,,0570,Reso Bass 5,84,4,58
+,,0571,Reso Bass 6,84,4,59
+,,0572,Reso Bass 7,84,4,60
+,,0573,Reso Bass 8,84,4,61
+,,0574,Reso Bass 9,84,4,62
+,,0575,Reso Bass 10,84,4,63
+,,0576,Acid Bass,84,4,64
+,,0577,Acid Bass 2,84,4,65
+,,0578,Acid Bass 3,84,4,66
+,,0579,Acid Bass 4,84,4,67
+,,0580,Acid Bass 5,84,4,68
+,,0581,Acid Bass 6,84,4,69
+,,0582,Acid Bass 7,84,4,70
+,,0583,TB Bass 1,84,4,71
+,,0584,TB Bass 2,84,4,72
+,,0585,TB Bass 3,84,4,73
+,,0586,TB Bass 4,84,4,74
+,,0587,Alpha Bass 1,84,4,75
+,,0588,Alpha Bass 2,84,4,76
+,,0589,Alpha ResoBs,84,4,77
+,,0590,Nu Saw Bass,84,4,78
+,,0591,Nu RnB SawBs,84,4,79
+,,0592,Storm Bass,84,4,80
+,,0593,Detune Bass,84,4,81
+,,0594,Gashed Bass,84,4,82
+,,0595,Hi-Energy Bs,84,4,83
+,,0596,Pedal Bass 1,84,4,84
+,,0597,Pedal Bass 2,84,4,85
+,,0598,Monster Bass,84,4,86
+,,0599,JunoSqr Bs 1,84,4,87
+,,0600,JunoSqr Bs 2,84,4,88
+,,0601,101 Bass,84,4,89
+,,0602,106 Bass 1,84,4,90
+,,0603,106 Bass 2,84,4,91
+,,0604,Compu Bass 1,84,4,92
+,,0605,Compu Bass 2,84,4,93
+,,0606,Triangle Bs,84,4,94
+,,0607,Muffled Bass,84,4,95
+,,0608,Garage Bass,84,4,96
+,,0609,TransistorBs,84,4,97
+,,0610,Fazee Bass,84,4,98
+,,0611,Brite Bass,84,4,99
+,,0612,Saw Bass,84,4,100
+,,0613,Sub Bass,84,4,101
+,,0614,Ramp Bass,84,4,102
+,,0615,Fat Bass 1,84,4,103
+,,0616,Fat Bass 2,84,4,104
+,,0617,Fat Bass 3,84,4,105
+,,0618,Flat Bass,84,4,106
+,,0619,Electro Rubb,84,4,107
+,,0620,80s Bass,84,4,108
+,,0621,SynthBass101,84,4,109
+,,0622,Clav Bass,84,4,110
+,,0623,Hammer Bass,84,4,111
+,,0624,SynSlap Bass,84,4,112
+,,0625,Rubber Bass,84,4,113
+,,0626,Attack Pulse,84,4,114
+,AC.GUITAR,0627,Nylon Gtr 1,84,4,115
+,,0628,Nylon Gtr 2,84,4,116
+,,0629,Nylon Gtr 3,84,4,117
+,,0630,Nylon Gtr 4,84,4,118
+,,0631,Nylon Gtr 5,84,4,119
+,,0632,Nylon Gtr 6,84,4,120
+,,0633,Wet Nyln Gtr,84,4,121
+,,0634,Folk Gtr 1,84,4,122
+,,0635,Folk Gtr 2,84,4,123
+,,0636,Folk Gtr 3,84,4,124
+,,0637,Latin Gtr,84,4,125
+,,0638,Ukulele,84,4,126
+,,0639,Ukulele 2,84,4,127
+,,0640,Nylon Gtr 1o,84,4,128
+,,0641,Steel-str.Gt,84,5,1
+,,0642,12-str. Gtr,84,5,2
+,,0643,Steel + Body,84,5,3
+,,0644,Gt FretNoise,84,5,4
+,E.GUITAR,0645,Clean Gtr 1,84,5,5
+,,0646,Clean Gtr 2,84,5,6
+,,0647,Clean Gtr 3,84,5,7
+,,0648,Jazz Guitar,84,5,8
+,,0649,Jazz Guitar2,84,5,9
+,,0650,Pick E.Gtr,84,5,10
+,,0651,Funk Guitar,84,5,11
+,,0652,Funk Guitar2,84,5,12
+,,0653,Wet E.Gtr,84,5,13
+,,0654,Pedal Steel,84,5,14
+,,0655,Pedal Steel2,84,5,15
+,,0656,Clean Guitar,84,5,16
+,,0657,Chorus Gtr,84,5,17
+,,0658,Mid Tone Gtr,84,5,18
+,,0659,Muted Guitar,84,5,19
+,,0660,Funk Pop,84,5,20
+,,0661,Jazz Man,84,5,21
+,,0662,Gt Cut Noise,84,5,22
+,DIST GUITAR,0663,Overdrive Gt,84,5,23
+,,0664,OverdriveGt2,84,5,24
+,,0665,Guitar Pinch,84,5,25
+,,0666,Dist Gtr 1,84,5,26
+,,0667,Dist Gtr 2,84,5,27
+,,0668,Dist Gtr 3,84,5,28
+,,0669,DistortionGt,84,5,29
+,,0670,Gt Feedback1,84,5,30
+,,0671,Dist Rtm Gtr,84,5,31
+,,0672,Gt Harmonics,84,5,32
+,,0673,Gt Feedback2,84,5,33
+,PLUCKED STROKE,0674,Kalimba,84,5,34
+,,0675,Harp,84,5,35
+,,0676,Yang Qin,84,5,36
+,,0677,Sitar Pad,84,5,37
+,,0678,Mandolin,84,5,38
+,,0679,Sitar 1,84,5,39
+,,0680,Sitar 2,84,5,40
+,,0681,Sitar 3,84,5,41
+,,0682,Banjo,84,5,42
+,,0683,Shamisen,84,5,43
+,,0684,Koto,84,5,44
+,,0685,Taisho Koto,84,5,45
+,,0686,Aerial Harp,84,5,46
+,,0687,LostParadise,84,5,47
+,,0688,Indian Frtls,84,5,48
+,,0689,Santur,84,5,49
+,,0690,Santur 2,84,5,50
+,,0691,Santur 3,84,5,51
+OTHER,ENSEMBLE BRASS,0692,Brass 1,84,5,52
+,,0693,Brass 2,84,5,53
+,,0694,Brass 3,84,5,54
+,,0695,Brass 4,84,5,55
+,,0696,Brass 5,84,5,56
+,,0697,Brass 6,84,5,57
+,,0698,F.Horn Sect,84,5,58
+,SOLO BRASS,0699,Trumpet,84,5,59
+,,0700,Trumpet 2,84,5,60
+,,0701,Dark Trumpet,84,5,61
+,,0702,MuteTrumpet1,84,5,62
+,,0703,MuteTrumpet2,84,5,63
+,,0704,Trombone 1,84,5,64
+,,0705,Trombone 2,84,5,65
+,,0706,Bright Tb,84,5,66
+,,0707,Tuba,84,5,67
+,,0708,Fr.Horn,84,5,68
+,,0709,French Horn,84,5,69
+,WOODWINDS,0710,Oboe,84,5,70
+,,0711,English Horn,84,5,71
+,,0712,Bassoon,84,5,72
+,,0713,Bassoon 2,84,5,73
+,,0714,Clarinet,84,5,74
+,,0715,Bagpipe,84,5,75
+,,0716,Shanai,84,5,76
+,FLUTE,0717,Piccolo,84,5,77
+,,0718,Flute,84,5,78
+,,0719,Flute 2,84,5,79
+,,0720,Strawberry Flute,84,5,80
+,,0721,Pan Flute,84,5,81
+,,0722,Pan Flute 2,84,5,82
+,,0723,Pan Pipes 1,84,5,83
+,,0724,Pan Pipes 2,84,5,84
+,,0725,Bottle Blow,84,5,85
+,,0726,Shakuhachi,84,5,86
+,,0727,Shakuhachi 2,84,5,87
+,,0728,Breath Noise,84,5,88
+,,0729,Fl.Key Click,84,5,89
+,SAX,0730,Soprano Sax,84,5,90
+,,0731,Soprano Sax2,84,5,91
+,,0732,Alto Sax,84,5,92
+,,0733,Tenor Sax,84,5,93
+,,0734,Tenor Sax 2,84,5,94
+,,0735,BreathyTenor,84,5,95
+,,0736,Baritone Sax,84,5,96
+,RECORDER,0737,Recorder,84,5,97
+,,0738,Whistle,84,5,98
+,,0739,Ocarina,84,5,99
+,,0740,Ocarina 2,84,5,100
+,SYNTH LEAD,0741,Juno SQR,84,5,101
+,,0742,Saw Lead 1,84,5,102
+,,0743,Saw Lead 2,84,5,103
+,,0744,Saw Lead 3,84,5,104
+,,0745,Saw Lead 4,84,5,105
+,,0746,Saw Lead 5,84,5,106
+,,0747,Saw Lead 6,84,5,107
+,,0748,Saw Lead 7,84,5,108
+,,0749,Saw Lead 8,84,5,109
+,,0750,Saw Lead 9,84,5,110
+,,0751,Saw Lead 10,84,5,111
+,,0752,GR300 Lead 1,84,5,112
+,,0753,GR300 Lead 2,84,5,113
+,,0754,Classic GR,84,5,114
+,,0755,Bright GR,84,5,115
+,,0756,Fat GR Lead,84,5,116
+,,0757,MODified Ld,84,5,117
+,,0758,Syn Lead 1,84,5,118
+,,0759,Syn Lead 2,84,5,119
+,,0760,Syn Lead 3,84,5,120
+,,0761,Syn Lead 4,84,5,121
+,,0762,Syn Lead 5,84,5,122
+,,0763,Syn Lead 6,84,5,123
+,,0764,Syn Lead 7,84,5,124
+,,0765,Pro Fat Ld 1,84,5,125
+,,0766,Pro Fat Ld 2,84,5,126
+,,0767,JupiterLead1,84,5,127
+,,0768,JupiterLead2,84,5,128
+,,0769,Porta Lead,84,6,1
+,,0770,Classic Lead,84,6,2
+,,0771,On Air,84,6,3
+,,0772,Wormy Lead,84,6,4
+,,0773,Waspy Lead,84,6,5
+,,0774,Brite ResoLd,84,6,6
+,,0775,Brass Lead,84,6,7
+,,0776,Legato Tkno,84,6,8
+,,0777,Follow Me,84,6,9
+,,0778,Octa Juice,84,6,10
+,,0779,Juicy Jupe,84,6,11
+,,0780,Octa Saw,84,6,12
+,,0781,Vintager 1,84,6,13
+,,0782,Vintager 2,84,6,14
+,,0783,Sync Lead,84,6,15
+,,0784,Octa Sync,84,6,16
+,,0785,Leading Sync,84,6,17
+,,0786,A Leader,84,6,18
+,,0787,Hot Coffee,84,6,19
+,,0788,Hot Sync,84,6,20
+,,0789,Synchro Lead,84,6,21
+,,0790,Space Solo,84,6,22
+,,0791,Squareheads,84,6,23
+,,0792,Mod Lead,84,6,24
+,,0793,Alpha Spit,84,6,25
+,,0794,Air Lead,84,6,26
+,,0795,Pulstar Lead,84,6,27
+,,0796,Therasaw,84,6,28
+,,0797,Warmy Lead,84,6,29
+,,0798,ResoSawLead,84,6,30
+,,0799,Soft Reso Ld,84,6,31
+,,0800,Reso Lead 1,84,6,32
+,,0801,Reso Lead 2,84,6,33
+,,0802,Reso Lead 3,84,6,34
+,,0803,Reso Lead 4,84,6,35
+,,0804,Reso Lead 5,84,6,36
+,,0805,Juicy Lead,84,6,37
+,,0806,DC Triangle,84,6,38
+,,0807,Soft Lead 1,84,6,39
+,,0808,Soft Lead 2,84,6,40
+,,0809,Soft Lead 3,84,6,41
+,,0810,Soft Lead 4,84,6,42
+,,0811,Soft Lead 5,84,6,43
+,,0812,Soft Lead 6,84,6,44
+,,0813,Soft Lead 7,84,6,45
+,,0814,Soft Lead 8,84,6,46
+,,0815,Soft Lead 9,84,6,47
+,,0816,Soft Lead 10,84,6,48
+,,0817,Tri Lead,84,6,49
+,,0818,Pulse Lead 1,84,6,50
+,,0819,Pulse Lead 2,84,6,51
+,,0820,Pulse Lead 3,84,6,52
+,,0821,Pulse Lead 4,84,6,53
+,,0822,Simple Tri,84,6,54
+,,0823,Simple Sine,84,6,55
+,,0824,Whistle Ld 1,84,6,56
+,,0825,Whistle Ld 2,84,6,57
+,,0826,Square Pipe,84,6,58
+,,0827,CosmicDrops1,84,6,59
+,,0828,Spooky Lead,84,6,60
+,,0829,Pure Lead,84,6,61
+,,0830,303 NRG,84,6,62
+,,0831,Round SQR,84,6,63
+,,0832,Brite SQR,84,6,64
+,,0833,Square SAW,84,6,65
+,,0834,Simple SQR,84,6,66
+,,0835,Sqr Lead,84,6,67
+,,0836,Atk Lead,84,6,68
+,,0837,Octa Square,84,6,69
+,,0838,CS Lead,84,6,70
+,,0839,Mini Growl,84,6,71
+,,0840,Hoover Again,84,6,72
+,,0841,Tranceformer,84,6,73
+,,0842,Ramp Lead 1,84,6,74
+,,0843,Ramp Lead 2,84,6,75
+,,0844,Sine Lead 1,84,6,76
+,,0845,Sine Lead 2,84,6,77
+,,0846,Dance Saws1,84,6,78
+,,0847,Resoform,84,6,79
+,,0848,Dance Saws 2,84,6,80
+,,0849,Square Wave,84,6,81
+,,0850,MG Square,84,6,82
+,,0851,2600 Sine,84,6,83
+,,0852,Saw Wave,84,6,84
+,,0853,OB2 Saw,84,6,85
+,,0854,Doctor Solo,84,6,86
+,,0855,Natural Lead,84,6,87
+,,0856,Syn.Calliope,84,6,88
+,,0857,Chiffer Lead,84,6,89
+,,0858,Charang,84,6,90
+,,0859,Wire Lead,84,6,91
+,,0860,Solo Vox,84,6,92
+,,0861,5th Saw Wave,84,6,93
+,,0862,Bass & Lead,84,6,94
+,,0863,Delayed Lead,84,6,95
+,SYNTH BRASS,0864,80s Brass 1,84,6,96
+,,0865,80s Brass 2,84,6,97
+,,0866,80s Brass 3,84,6,98
+,,0867,80s Brass 4,84,6,99
+,,0868,80s Brass 5,84,6,100
+,,0869,80s Brass 6,84,6,101
+,,0870,80s Brass 7,84,6,102
+,,0871,80s Brass 8,84,6,103
+,,0872,Soft SynBrs1,84,6,104
+,,0873,Soft SynBrs2,84,6,105
+,,0874,Warm SynBrs,84,6,106
+,,0875,Brite SynBrs,84,6,107
+,,0876,Express Brs,84,6,108
+,,0877,EuroExpress1,84,6,109
+,,0878,JP Brass 1,84,6,110
+,,0879,JP Brass 2,84,6,111
+,,0880,Juno Brass,84,6,112
+,,0881,Ox Brass,84,6,113
+,,0882,Reso Brass,84,6,114
+,,0883,Wide SynBrs,84,6,115
+,,0884,106 Brass,84,6,116
+,,0885,Octa Brass,84,6,117
+,,0886,Poly Brass 1,84,6,118
+,,0887,Poly Brass 2,84,6,119
+,,0888,Dual Saw Brs,84,6,120
+,,0889,Jump Poly,84,6,121
+,,0890,Reso Key 1,84,6,122
+,,0891,EuroExpress2,84,6,123
+,,0892,Ox Synth,84,6,124
+,,0893,VintageBrs 1,84,6,125
+,,0894,VintageBrs 2,84,6,126
+,,0895,VintageBrs 3,84,6,127
+,,0896,VintageBrs 4,84,6,128
+,,0897,JP Brass,84,7,1
+,,0898,Oct SynBrass,84,7,2
+,,0899,Jump Brass,84,7,3
+,,0900,Synth Brass1,84,7,4
+,,0901,Synth Brass2,84,7,5
+,,0902,SynBrass sfz,84,7,6
+,,0903,Velo Brass,84,7,7
+,SYNTH POLY KEY,0904,Syn Mallet,84,7,8
+,,0905,Heaven Key,84,7,9
+,,0906,PWM Pad 1,84,7,10
+,,0907,Poly Synth,84,7,11
+,,0908,Dream Trance,84,7,12
+,,0909,Dream Saws,84,7,13
+,,0910,Dream Pulse,84,7,14
+,,0911,Trance Synth,84,7,15
+,,0912,Trancy,84,7,16
+,,0913,Trance Keys,84,7,17
+,,0914,Trance Saws,84,7,18
+,,0915,Auto Trance1,84,7,19
+,,0916,Super Saws 1,84,7,20
+,,0917,Analog Saws,84,7,21
+,,0918,Uni-G,84,7,22
+,,0919,Digitaless,84,7,23
+,,0920,Bustranza,84,7,24
+,,0921,Super Saws 2,84,7,25
+,,0922,Poly Synth 2,84,7,26
+,,0923,Poly Synth 3,84,7,27
+,,0924,Poly Synth 4,84,7,28
+,,0925,Poly Synth 5,84,7,29
+,,0926,Poly Synth 6,84,7,30
+,,0927,Poly Synth 7,84,7,31
+,,0928,Juno Saw Key,84,7,32
+,,0929,Saw Key 1,84,7,33
+,,0930,Saw Key 2,84,7,34
+,,0931,Waspy Synth,84,7,35
+,,0932,Vintage Key,84,7,36
+,,0933,Ju-D Fifths,84,7,37
+,,0934,Reso Key 2,84,7,38
+,,0935,Fat Synth,84,7,39
+,,0936,DOC Stack,84,7,40
+,,0937,2 Saws,84,7,41
+,,0938,Hi Saw Band,84,7,42
+,,0939,Brite Synth,84,7,43
+,,0940,RAVtune,84,7,44
+,,0941,Pipe Key,84,7,45
+,,0942,Shroomy,84,7,46
+,,0943,AnalogDays 1,84,7,47
+,,0944,Sync Key,84,7,48
+,,0945,Detune Ramp,84,7,49
+,,0946,Reso Saw,84,7,50
+,,0947,EuroExpress3,84,7,51
+,,0948,Sweep Saw,84,7,52
+,SYNTH FX,0949,Shimmer Pad,84,7,53
+,,0950,BUBBLE 1,84,7,54
+,,0951,CosmicDrops2,84,7,55
+,,0952,Enigmatic,84,7,56
+,,0953,Planetz,84,7,57
+,,0954,Sci-Fi,84,7,58
+,,0955,ResoSweep Dn,84,7,59
+,,0956,Jet Noise,84,7,60
+,,0957,Brandish,84,7,61
+,,0958,909 Fx,84,7,62
+,,0959,Zap,84,7,63
+,,0960,PolySweep Nz,84,7,64
+,,0961,Passing By,84,7,65
+,,0962,Lazer Points,84,7,66
+,,0963,Crystal Fx,84,7,67
+,,0964,Crystal Ice,84,7,68
+,,0965,Mad Noise,84,7,69
+,,0966,Robot Sci-Fi,84,7,70
+,,0967,Computer 1,84,7,71
+,,0968,Computer 2,84,7,72
+,,0969,S&H Noise,84,7,73
+,,0970,S&H Ramp,84,7,74
+,,0971,S&H PWM,84,7,75
+,,0972,S&H Saw 1,84,7,76
+,,0973,S&H Saw 2,84,7,77
+,,0974,Electrostar,84,7,78
+,,0975,Alpha Said,84,7,79
+,,0976,FX Ramp,84,7,80
+,,0977,Goblin,84,7,81
+,,0978,Echo Drops,84,7,82
+,,0979,Echo Bell,84,7,83
+,SYNTH SEQ PAD,0980,Analog Seq,84,7,84
+,,0981,Seq Pop,84,7,85
+,,0982,Periscope,84,7,86
+,,0983,Major 7,84,7,87
+,,0984,Juno-D Maj7,84,7,88
+,,0985,Sweet House,84,7,89
+,,0986,Detune Saws,84,7,90
+,,0987,Melodic Drum,84,7,91
+,,0988,Detune Seq,84,7,92
+,,0989,SequencedSaw,84,7,93
+,,0990,Echo Pan,84,7,94
+,PULSATING,0991,PanninFormnt,84,7,95
+,,0992,Fairy's Song,84,7,96
+,,0993,Atmospherics,84,7,97
+,,0994,StrobeBell 1,84,7,98
+,,0995,StrobeBell 2,84,7,99
+,,0996,Flying Pad 1,84,7,100
+,,0997,Flying Pad 2,84,7,101
+,,0998,Flying Pad 3,84,7,102
+,,0999,Flying Pad 4,84,7,103
+,,1000,Flying Pad 5,84,7,104
+,,1001,Sine Magic,84,7,105
+,,1002,Pulsatron,84,7,106
+,,1003,Motion Bass,84,7,107
+,,1004,Trance Splt,84,7,108
+,,1005,Rhythmic 5th,84,7,109
+,,1006,Rhythmic 1,84,7,110
+,,1007,Rhythmic 2,84,7,111
+,,1008,Mega Sync 1,84,7,112
+,,1009,StrobeBell 3,84,7,113
+,,1010,Strobe 1,84,7,114
+,,1011,Strobe 2,84,7,115
+,,1012,Strobe 3,84,7,116
+,,1013,Strobe 4,84,7,117
+,,1014,LFO Saw,84,7,118
+,,1015,Keep Going,84,7,119
+,,1016,Keep Running,84,7,120
+,,1017,Electrons,84,7,121
+,,1018,BriskVortex,84,7,122
+,,1019,LFO Vox,84,7,123
+,,1020,Pulsasaw,84,7,124
+,,1021,Arposphere,84,7,125
+,,1022,Mega Sync 2,84,7,126
+,BEAT GROOVE,1023,Compusonic 1,84,7,127
+,,1024,Compusonic 2,84,7,128
+,,1025,Compusonic 3,84,8,1
+,,1026,Compusonic 4,84,8,2
+,,1027,Compusonic 5,84,8,3
+,,1028,AnalogDays 2,84,8,4
+,,1029,Groove 007,84,8,5
+,,1030,Juno Pop,84,8,6
+,,1031,Auto Trance2,84,8,7
+,,1032,In Da Groove,84,8,8
+,,1033,80s Beat,84,8,9
+,HIT,1034,Cheezy Movie,84,8,10
+,,1035,Mod Chord,84,8,11
+,,1036,Housechord,84,8,12
+,,1037,OrchestraHit,84,8,13
+,,1038,Bass Hit,84,8,14
+,,1039,6th Hit,84,8,15
+,,1040,Euro Hit,84,8,16
+,SOUND FX,1041,Seashore,84,8,17
+,,1042,Rain,84,8,18
+,,1043,Thunder,84,8,19
+,,1044,Wind,84,8,20
+,,1045,Stream,84,8,21
+,,1046,Bubble,84,8,22
+,,1047,Bird 1,84,8,23
+,,1048,Dog,84,8,24
+,,1049,Horse Gallop,84,8,25
+,,1050,Bird 2,84,8,26
+,,1051,Telephone 1,84,8,27
+,,1052,Telephone 2,84,8,28
+,,1053,DoorCreaking,84,8,29
+,,1054,Door,84,8,30
+,,1055,Scratch,84,8,31
+,,1056,Scratch 2,84,8,32
+,,1057,Wind Chimes,84,8,33
+,,1058,Helicopter,84,8,34
+,,1059,Car Engine,84,8,35
+,,1060,Car Stop,84,8,36
+,,1061,Car Pass,84,8,37
+,,1062,Car Crash,84,8,38
+,,1063,Siren,84,8,39
+,,1064,Train,84,8,40
+,,1065,Jetplane,84,8,41
+,,1066,Starship,84,8,42
+,,1067,Burst Noise,84,8,43
+,,1068,Applause,84,8,44
+,,1069,Laughing,84,8,45
+,,1070,Screaming,84,8,46
+,,1071,Punch,84,8,47
+,,1072,Heart Beat,84,8,48
+,,1073,Footsteps,84,8,49
+,,1074,Gun Shot,84,8,50
+,,1075,Machine Gun,84,8,51
+,,1076,Laser Gun,84,8,52
+,,1077,Explosion,84,8,53
+,,1078,GM2 SFX,84,8,54
+,PERCUSSION,1079,Timpani,84,8,55
+,,1080,Ride Cymbal,84,8,56
+,,1081,Castanets,84,8,57
+,,1082,Taiko,84,8,58
+,,1083,Concert BD,84,8,59
+,,1084,Melo. Tom 1,84,8,60
+,,1085,Melo. Tom 2,84,8,61
+,,1086,Synth Drum,84,8,62
+,,1087,808 Tom,84,8,63
+,,1088,Elec Perc,84,8,64
+,,1089,Reverse Cymb,84,8,65
+,,1090,Agogo,84,8,66
+,,1091,Woodblock,84,8,67
+,DRUMS,1092,Standard 1,84,8,68
+,,1093,Standard 2,84,8,69
+,,1094,Standard 3,84,8,70
+,,1095,Rock Kit,84,8,71
+,,1096,Jazz Kit,84,8,72
+,,1097,Brush Kit,84,8,73
+,,1098,Machine Kit,84,8,74
+,,1099,R&B T-Analog,84,8,75
+,,1100,R&B Mini Kit,84,8,76
+,,1101,HipHop Kit,84,8,77
+,,1102,R&B Kit,84,8,78
+,,1103,Dance Kit 1,84,8,79
+,,1104,Dance Kit 2,84,8,80
+,,1105,Dance Kit 3,84,8,81
+,,1106,GM2 STANDARD,84,8,82
+,,1107,GM2 ROOM,84,8,83
+,,1108,GM2 POWER,84,8,84
+,,1109,GM2 ELECTRIC,84,8,85
+,,1110,GM2 ANALOG,84,8,86
+,,1111,GM2 JAZZ,84,8,87
+,,1112,GM2 BRUSH,84,8,88
+,,1113,GM2 ORCHSTRA,84,8,89
