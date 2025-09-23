@@ -1,7 +1,8 @@
 (ns kbd-tones-cheatsheet.core
   (:refer-clojure :exclude [load])
-  (:require [yaml.core :as yaml])
-  (:require [clojure.java.io :as io])
+  (:require [yaml.core :as yaml]
+            [clojure.data.csv :as csv]
+            [clojure.java.io :as io])
   (:gen-class))
 
 (defn yaml-files [dir-path]
@@ -18,12 +19,23 @@
     ))
 
 (defn get-sheet-spec [sheet-file out-dir]
-  (let [sheet (yaml/from-file sheet-file)
-        name (base-name (.getName sheet-file))
-        out-path (->> (io/file out-dir (str name ".pdf"))
-                      .getPath)]
-    (assoc sheet :out-path out-path)
+  "Get the sheet spec, with relative paths adjusted for its location, and out-path inserted."
+  (let [sheet-dir (.getParent sheet-file)
+        sheet-basename (base-name (.getName sheet-file))
+        sheet (yaml/from-file sheet-file)
+        adjusted-sheet (update-in sheet [:tones :path] #(->> % (io/file sheet-dir) .getPath))
+        ]
+    (assoc adjusted-sheet :out-path (->> (io/file out-dir (str sheet-basename ".pdf"))
+                                         .getPath))
     ))
+
+(defn get-tones [{:keys [path header]}]
+  "Return the tones as a vector of maps, with blank entries in the CSV propagated from last non-blank value in that column."
+  (with-open [reader (io/reader path)]
+    (let [rows (csv/read-csv reader)
+          ]
+      (mapv identity rows)
+      )))
 
 (defn create-cheatsheet [spec]
   )

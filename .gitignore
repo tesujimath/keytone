@@ -10,5 +10,4 @@ pom.xml.asc
 /.lein-*
 /.nrepl-port
 /.prepl-port
-.hgignore
-.hg/
+/pdf/

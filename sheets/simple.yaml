@@ -1,0 +1,11 @@
+description: "Simple Example"
+tones:
+  path: "tones/simple.csv"
+  header:
+    category: "Category"
+    sub-category: "Sub Category"
+    id: "Number"
+    tone: "TONE Name"
+grid:
+  rows: 30
+  columns: 6
