@@ -38,6 +38,13 @@
   "Take non-blank items from l, otherwise corresponding defaults."
   (map (fn [x d] (if (empty? x) d x)) l defaults))
 
+(defn create-tone-map [tone-list]
+  "Create a tone map from the list, with entries reversed."
+  (reduce (fn [m [cat subcat id name]]
+            (update-in m [cat subcat] #(conj % [id name])))
+          (array-map)
+          tone-list))
+
 (defn get-tones [{:keys [path header]}]
   "Return the tones as a vector of maps, with blank entries in the CSV propagated from last non-blank value in that column."
   (with-open [reader (io/reader path)]
@@ -48,12 +55,12 @@
           field-getters (map #(fn [row] (get row %)) field-indices)
           row-mapper (fn [row] (map #(% row) field-getters))
           mapped-rows (map row-mapper (rest rows))
-          defaulted-mapped-rows (first (reduce (fn [[rows defaults] row]
-                                                 (let [merged (nonblank-or-default row defaults)]
-                                                   [(conj rows merged) merged]))
-                                               [[] blank-fields] mapped-rows))
+          defaulted-mapped-rows  (first (reduce (fn [[rows defaults] row]
+                                                  (let [merged (nonblank-or-default row defaults)]
+                                                    [(conj rows merged) merged]))
+                                                ['() blank-fields] mapped-rows))
           ]
-      defaulted-mapped-rows
+      (create-tone-map defaulted-mapped-rows)
       )))
 
 (defn create-cheatsheet [spec]
