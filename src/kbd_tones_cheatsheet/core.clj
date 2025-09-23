@@ -29,12 +29,31 @@
                                          .getPath))
     ))
 
+(defn get-field-indices [field-names header]
+  (let [header-indices (into {} (map-indexed (fn [i v] [v i]) header))]
+    (map #(get header-indices %) field-names)))
+
+
+(defn nonblank-or-default [l defaults]
+  "Take non-blank items from l, otherwise corresponding defaults."
+  (map (fn [x d] (if (empty? x) d x)) l defaults))
+
 (defn get-tones [{:keys [path header]}]
   "Return the tones as a vector of maps, with blank entries in the CSV propagated from last non-blank value in that column."
   (with-open [reader (io/reader path)]
     (let [rows (csv/read-csv reader)
+          field-names (map #(get header %) [:category :sub-category :id :name])
+          blank-fields (map (fn [_] "") field-names)
+          field-indices (get-field-indices field-names (first rows))
+          field-getters (map #(fn [row] (get row %)) field-indices)
+          row-mapper (fn [row] (map #(% row) field-getters))
+          mapped-rows (map row-mapper (rest rows))
+          defaulted-mapped-rows (first (reduce (fn [[rows defaults] row]
+                                                 (let [merged (nonblank-or-default row defaults)]
+                                                   [(conj rows merged) merged]))
+                                               [[] blank-fields] mapped-rows))
           ]
-      (mapv identity rows)
+      defaulted-mapped-rows
       )))
 
 (defn create-cheatsheet [spec]
@@ -47,4 +66,7 @@
         out-dir "pdf"
         sheet-specs (map #(get-sheet-spec % out-dir) (yaml-files sheets-dir))]
     (doseq [sheet-spec sheet-specs]
-      (println sheet-spec))))
+      (let [tones(get-tones (get sheet-spec :tones))]
+           (println sheet-spec)
+           (println tones)
+           ))))
