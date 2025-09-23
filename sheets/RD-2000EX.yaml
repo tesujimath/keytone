@@ -1,0 +1,11 @@
+description: "RD-2000 EX"
+tones:
+  path: "tones/RD-2000EX_Sound_List_eng01_W.csv"
+  header:
+    category: "Category"
+    sub-category: "Sub Category"
+    id: "Number"
+    tone: "TONE Name"
+grid:
+  rows: 30
+  columns: 6

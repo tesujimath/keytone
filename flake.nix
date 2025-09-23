@@ -23,7 +23,16 @@
             leiningen
 
             typst
+            roboto
           ];
+
+          shellHook = ''
+            export TYPST_FONT_PATHS=${with pkgs; with builtins; concatStringsSep ":" (map (fontPkg: fontPkg + "/share/fonts/truetype")
+                                                                                      [
+                                                                                          roboto
+                                                                                      ]
+                                                                                     )}
+            '';
         };
       }
     );
