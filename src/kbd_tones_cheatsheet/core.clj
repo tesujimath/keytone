@@ -2,7 +2,8 @@
   (:refer-clojure :exclude [load])
   (:require [yaml.core :as yaml]
             [clojure.data.csv :as csv]
-            [clojure.java.io :as io])
+            [clojure.java.io :as io]
+            [clojure.pprint :as pp])
   (:gen-class))
 
 (defn yaml-files [dir-path]
@@ -63,6 +64,13 @@
       (create-tone-map defaulted-mapped-rows)
       )))
 
+(defn group-subcats [subcats size]
+  "Turn a map of sub-categories into list of group lists of same size, with last filled with nil.
+   Subcategory names appear inline in the lists occupying a slot."
+  (let [linear-tones (mapcat #(conj (get subcats %) %) (keys subcats))]
+    ;; TODO nil insertion to eliminate widows
+    (partition size size (repeat nil) linear-tones)))
+
 (defn create-cheatsheet [spec]
   )
 
@@ -71,9 +79,13 @@
   [& args]
   (let [sheets-dir (io/file "sheets")
         out-dir "pdf"
-        sheet-specs (map #(get-sheet-spec % out-dir) (yaml-files sheets-dir))]
-    (doseq [sheet-spec sheet-specs]
-      (let [tones(get-tones (get sheet-spec :tones))]
-           (println sheet-spec)
-           (println tones)
+        specs (map #(get-sheet-spec % out-dir) (yaml-files sheets-dir))]
+    (doseq [spec specs]
+      (let [tones (get-tones (get spec :tones))
+            groups (into (array-map) (map (fn [cat] [cat (group-subcats (get tones cat) (get-in spec [:grid :rows]))]) (reverse (keys tones))))
+
+            ]
+           ;(println spec)
+           ;(println tones)
+        (pp/pprint groups)
            ))))
