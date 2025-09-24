@@ -76,6 +76,28 @@
 
   )
 
+(defn format-header-cell [[cat count]]
+  (format "grid.cell(colspan: %d, align: center, [*%s*])," (* count 2) cat))
+
+(defn format-body-cell [x]
+  (cond
+    (nil? x) "grid.cell(colspan: 2, []),"
+    (string? x) (format "grid.cell(colspan: 2, align: center, [*%s*])," x)
+    :else (let [[id name] x]
+            (format "[%s],[%s]," id name)
+            )))
+
+(defn create-page [attrs cols]
+  (let [col-subcats (map first cols)
+        subcat-freqs (frequencies col-subcats)
+        subcats-with-counts (map (fn [c] [c (subcat-freqs c)]) (distinct col-subcats))
+        body-rows (apply map vector (map #(nth % 1) cols))
+        header (apply str (map format-header-cell subcats-with-counts))
+        body (map #(apply str %) (map (fn [row] (map format-body-cell row)) body-rows))
+        ]
+    (conj body header)
+    ))
+
 (defn create-cheatsheet [spec]
   )
 
@@ -88,10 +110,11 @@
     (doseq [spec specs]
       (let [tones (get-tones (get spec :tones))
             groups (mapcat (fn [cat] (split-columns cat (get tones cat) (get-in spec [:grid :rows]))) (reverse (keys tones)))
-            pages (partition (get-in spec [:grid :columns]) groups)
-
+            pages (map vec (partition (get-in spec [:grid :cols]) groups))
+            h (map #(create-page {} %) pages)
             ]
            ;(println spec)
            ;(println tones)
-        (pp/pprint pages)
+        ;(pp/pprint pages)
+        (pp/pprint h)
            ))))
