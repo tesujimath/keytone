@@ -1,14 +1,14 @@
-description: "RD-2000 EX"
+description: "Example medium"
 tones:
-  path: "tones/RD-2000EX_Sound_List_eng01_W.csv"
+  path: "tones/medium.csv"
   header:
     category: "Category"
     sub-category: "Sub Category"
     id: "Number"
     name: "TONE Name"
 layout:
-  rows: 29
-  cols: 6
+  rows: 10
+  cols: 4
 typst:
   paper: "a4"
   flipped: "true"

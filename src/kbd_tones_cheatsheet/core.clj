@@ -3,7 +3,8 @@
   (:require [yaml.core :as yaml]
             [clojure.data.csv :as csv]
             [clojure.java.io :as io]
-            [clojure.pprint :as pp])
+            [clojure.pprint :as pp]
+            [clojure.string :as str])
   (:gen-class))
 
 (defn yaml-files [dir-path]
@@ -19,16 +20,24 @@
       (subs file-name 0 last-dot))
     ))
 
-(defn get-sheet-spec [sheet-file out-dir]
+(defn get-sheet-spec [sheet-file]
   "Get the sheet spec, with relative paths adjusted for its location, and out-path inserted."
   (let [sheet-dir (.getParent sheet-file)
         sheet-basename (base-name (.getName sheet-file))
-        sheet (yaml/from-file sheet-file)
-        adjusted-sheet (update-in sheet [:tones :path] #(->> % (io/file sheet-dir) .getPath))
-        ]
-    (assoc adjusted-sheet :out-path (->> (io/file out-dir (str sheet-basename ".pdf"))
-                                         .getPath))
+        spec (yaml/from-file sheet-file)
+        ;; adjust the tones path relative to sheet file
+        path-adjusted-spec (update-in spec [:tones :path] #(->> % (io/file sheet-dir) .getPath))
+        named-spec (assoc path-adjusted-spec :name sheet-basename)]
+    named-spec
     ))
+
+(defn build-spec [build-dir sheet-spec]
+  (let [name (sheet-spec :name)
+        out-path (fn [ext]
+                   (->> (io/file build-dir (str name ext)) .getPath))]
+    {:typst {:out-path (out-path ".typ")}
+     :pdf {:out-path (out-path ".pdf")}
+     }))
 
 (defn get-field-indices [field-names header]
   (let [header-indices (into {} (map-indexed (fn [i v] [v i]) header))]
@@ -87,34 +96,61 @@
             (format "[%s],[%s]," id name)
             )))
 
-(defn create-page [attrs cols]
+(defn format-page [spec cols]
   (let [col-subcats (map first cols)
         subcat-freqs (frequencies col-subcats)
         subcats-with-counts (map (fn [c] [c (subcat-freqs c)]) (distinct col-subcats))
         body-rows (apply map vector (map #(nth % 1) cols))
         header (apply str (map format-header-cell subcats-with-counts))
         body (map #(apply str %) (map (fn [row] (map format-body-cell row)) body-rows))
+        grid-begin (format "#pagebreak(weak: true)\n#grid(columns: %d, row-gutter: %s, column-gutter: %s,\n"
+                           (* 2 (count cols))
+                           (spec :row-gutter)
+                           (spec :column-gutter))
+        grid-end "\n)\n"
         ]
-    (conj body header)
+    (str grid-begin (str/join "\n" (conj body header)) grid-end)
     ))
 
-(defn create-cheatsheet [spec]
-  )
+(defn create-cheatsheet [build-dir spec formatted-pages]
+  (let [typst (spec :typst)
+        build (build-spec build-dir spec)]
+    (with-open [out-f (io/writer (get-in build [:typst :out-path] ))]
+      (let [header (format "#set text(font: \"%s\", size: %s)
+
+#set page(
+  paper: \"%s\",
+  flipped: %s,
+  margin: %s,
+)
+"
+                           (typst :font)
+                           (typst :font-size)
+                           (typst :paper)
+                           (typst :flipped)
+                           (typst :margin)
+                           )
+            trailer ""]
+        (.write out-f header)
+        (doseq [page formatted-pages]
+          (.write out-f page))
+        (.write out-f trailer)))))
 
 (defn -main
   "Create PDF cheatsheet for each sheet descriptor."
   [& args]
   (let [sheets-dir (io/file "sheets")
-        out-dir "pdf"
-        specs (map #(get-sheet-spec % out-dir) (yaml-files sheets-dir))]
+        build-dir "build"
+        specs (map get-sheet-spec (yaml-files sheets-dir))]
     (doseq [spec specs]
-      (let [tones (get-tones (get spec :tones))
-            groups (mapcat (fn [cat] (split-columns cat (get tones cat) (get-in spec [:grid :rows]))) (reverse (keys tones)))
-            pages (map vec (partition (get-in spec [:grid :cols]) groups))
-            h (map #(create-page {} %) pages)
+      (let [tones (get-tones (spec :tones))
+            groups (mapcat (fn [cat] (split-columns cat (tones cat) (get-in spec [:layout :rows]))) (reverse (keys tones)))
+            pages (map vec (partition (get-in spec [:layout :cols]) groups))
+            formatted-pages (map #(format-page (spec :typst) %) pages)
             ]
            ;(println spec)
            ;(println tones)
         ;(pp/pprint pages)
-        (pp/pprint h)
-           ))))
+                                        ;(pp/pprint h)
+        (create-cheatsheet build-dir spec formatted-pages)
+        ))))
