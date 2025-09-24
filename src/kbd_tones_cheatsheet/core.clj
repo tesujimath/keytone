@@ -49,11 +49,19 @@
   (map (fn [x d] (if (empty? x) d x)) l defaults))
 
 (defn create-tone-map [tone-list]
-  "Create a tone map from the list, with entries reversed."
-  (reduce (fn [m [cat subcat id name]]
-            (update-in m [cat subcat] #(conj % [id name])))
-          (array-map)
-          tone-list))
+  "Create a tone map from the list."
+  (let [cats (vec (distinct (map #(nth % 0) tone-list)))
+        cat-subcats (distinct (map (fn [row] [(nth row 0) (nth row 1)]) tone-list))
+        cat-subcat-unordered-list (reduce (fn [m [cat subcat]]
+                                            (update m cat #(conj % subcat))) {} cat-subcats)
+        cat-subcat-list (into {} (map (fn [[k v]] [k (reverse v)]) cat-subcat-unordered-list))
+        tone-map (reduce (fn [m [cat subcat id name]]
+                           (update-in m [cat subcat] #(conj % [id name])))
+                         {}
+                         (reverse tone-list))
+        ]
+    ;;(pp/pprint cat-subcat-list)
+    { :cats cats :subcats cat-subcat-list :map tone-map}))
 
 (defn get-tones [{:keys [path header]}]
   "Return the tones as a vector of maps, with blank entries in the CSV propagated from last non-blank value in that column."
@@ -65,18 +73,19 @@
           field-getters (map #(fn [row] (get row %)) field-indices)
           row-mapper (fn [row] (map #(% row) field-getters))
           mapped-rows (map row-mapper (rest rows))
-          defaulted-mapped-rows  (first (reduce (fn [[rows defaults] row]
-                                                  (let [merged (nonblank-or-default row defaults)]
-                                                    [(conj rows merged) merged]))
-                                                ['() blank-fields] mapped-rows))
+          defaulted-mapped-rows (reverse (first (reduce (fn [[rows defaults] row]
+                                                          (let [merged (nonblank-or-default row defaults)]
+                                                            [(conj rows merged) merged]))
+                                                        ['() blank-fields] mapped-rows)))
           ]
+      ;;(pp/pprint defaulted-mapped-rows)
       (create-tone-map defaulted-mapped-rows)
       )))
 
-(defn split-columns [cat subcats size]
+(defn split-columns [cat subcats subcat-tones size]
   "From a map of sub-categories create a list of group lists of same size, with last filled with nil.
    Subcategory names appear inline in the lists occupying a slot."
-  (let [linear-tones (mapcat #(conj (get subcats %) %) (keys subcats))]
+  (let [linear-tones (mapcat #(conj (get subcat-tones %) %) subcats)]
     ;; TODO nil insertion to eliminate widows
     (map (fn [col] [cat (vec col)]) (partition size size (repeat nil) linear-tones))))
 
@@ -144,12 +153,12 @@
         specs (map get-sheet-spec (yaml-files sheets-dir))]
     (doseq [spec specs]
       (let [tones (get-tones (spec :tones))
-            groups (mapcat (fn [cat] (split-columns cat (tones cat) (get-in spec [:layout :rows]))) (reverse (keys tones)))
+            groups (mapcat (fn [cat] (split-columns cat (get-in tones [:subcats cat]) (get-in tones [:map cat]) (get-in spec [:layout :rows]))) (tones :cats))
             pages (map vec (partition (get-in spec [:layout :cols]) groups))
             formatted-pages (map #(format-page (spec :typst) %) pages)
             ]
-           ;(println spec)
-           ;(println tones)
+        ;;(println spec)
+        ;;(println tones)
         ;(pp/pprint pages)
                                         ;(pp/pprint h)
         (create-cheatsheet build-dir spec formatted-pages)
