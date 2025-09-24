@@ -64,12 +64,17 @@
       (create-tone-map defaulted-mapped-rows)
       )))
 
-(defn group-subcats [subcats size]
-  "Turn a map of sub-categories into list of group lists of same size, with last filled with nil.
+(defn split-columns [cat subcats size]
+  "From a map of sub-categories create a list of group lists of same size, with last filled with nil.
    Subcategory names appear inline in the lists occupying a slot."
   (let [linear-tones (mapcat #(conj (get subcats %) %) (keys subcats))]
     ;; TODO nil insertion to eliminate widows
-    (partition size size (repeat nil) linear-tones)))
+    (map (fn [col] [cat (vec col)]) (partition size size (repeat nil) linear-tones))))
+
+(defn split-pages [column-maps size]
+  "From a list of column maps create page maps"
+
+  )
 
 (defn create-cheatsheet [spec]
   )
@@ -82,10 +87,11 @@
         specs (map #(get-sheet-spec % out-dir) (yaml-files sheets-dir))]
     (doseq [spec specs]
       (let [tones (get-tones (get spec :tones))
-            groups (into (array-map) (map (fn [cat] [cat (group-subcats (get tones cat) (get-in spec [:grid :rows]))]) (reverse (keys tones))))
+            groups (mapcat (fn [cat] (split-columns cat (get tones cat) (get-in spec [:grid :rows]))) (reverse (keys tones)))
+            pages (partition (get-in spec [:grid :columns]) groups)
 
             ]
            ;(println spec)
            ;(println tones)
-        (pp/pprint groups)
+        (pp/pprint pages)
            ))))
