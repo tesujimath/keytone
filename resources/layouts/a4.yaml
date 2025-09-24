@@ -1,0 +1,12 @@
+page:
+  width: "595pt"
+  height: "842pt"
+  margin: "12pt"
+grid:
+  rows: 42
+  cols: 4
+  row-gutter: "12pt"
+  column-gutter: "12pt"
+text:
+  font: "Roboto"
+  size: "10pt"
