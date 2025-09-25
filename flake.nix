@@ -20,7 +20,7 @@
             bashInteractive
             clojure
             clojure-lsp
-            leiningen
+            neil
 
             typst
             roboto

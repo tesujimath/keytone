@@ -1,4 +1,4 @@
-(ns kbd-tones-cheatsheet.core
+(ns keytone.keytone
   (:refer-clojure :exclude [load])
   (:require [yaml.core :as yaml]
             [clojure.data.csv :as csv]

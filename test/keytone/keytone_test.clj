@@ -1,6 +1,6 @@
-(ns kbd-tones-cheatsheet.core-test
+(ns keytone.keytone-test
   (:require [clojure.test :refer :all]
-            [kbd-tones-cheatsheet.core :refer :all]))
+            [keytone.keytone :refer :all]))
 
 (deftest a-test
   (testing "FIXME, I fail."
