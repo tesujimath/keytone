@@ -2,6 +2,9 @@
   (:require [clojure.test :refer :all]
             [keytone.keytone :refer :all]))
 
-(deftest a-test
-  (testing "FIXME, I fail."
-    (is (= 0 1))))
+(deftest create-tone-map-test
+  (testing "create-tone-map"
+    (let [tone-list [["Piano" "Electric Piano" "001" "80s FM1"]]
+          ]
+      (is (= (create-tone-map tone-list)
+             {:cats ["Piano"], :subcats {"Piano" '("Electric Piano")}, :map {"Piano" {"Electric Piano" '(["001" "80s FM1"])}}})))))

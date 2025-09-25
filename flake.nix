@@ -22,6 +22,7 @@
             clojure-lsp
             neil
 
+            just
             typst
             roboto
           ];
