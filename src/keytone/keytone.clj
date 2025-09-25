@@ -102,16 +102,18 @@
             )))
 
 (defn format-page [layout cols]
-  (let [col-subcats (map first cols)
-        subcat-freqs (frequencies col-subcats)
-        subcats-with-counts (map (fn [c] [c (subcat-freqs c)]) (distinct col-subcats))
+  (let [col-cats (map first cols)
+        cat-freqs (frequencies col-cats)
+        cats-with-counts (map (fn [c] [c (cat-freqs c)]) (distinct col-cats))
+        vlines (rest (reverse (second (reduce (fn [[total xs] [_ freq]] [(+ total freq) (conj xs total)]) [0 ()]  cats-with-counts))))
         body-rows (apply map vector (map #(nth % 1) cols))
-        header (apply str (map format-header-cell subcats-with-counts))
+        header (apply str (map format-header-cell cats-with-counts))
         body (map #(apply str %) (map (fn [row] (map format-body-cell row)) body-rows))
-        grid-begin (format "#pagebreak(weak: true)\n#grid(columns: %d, row-gutter: %s, column-gutter: %s,\n"
-                           (* 2 (count cols))
-                           (get-in layout [:grid :row-gutter])
-                           (get-in layout [:grid :column-gutter]))
+        grid-begin (str (format "#pagebreak(weak: true)\n#grid(columns: %d, row-gutter: %s, column-gutter: %s,\n"
+                               (* 2 (count cols))
+                               (get-in layout [:grid :row-gutter])
+                               (get-in layout [:grid :column-gutter]))
+                        (apply str (map #(format "grid.vline(x: %d),\n" (* 2 %)) vlines)))
         grid-end "\n)\n"
         ]
     (str grid-begin (str/join "\n" (conj body header)) grid-end)
