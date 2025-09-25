@@ -117,6 +117,12 @@
     (str grid-begin (str/join "\n" (conj body header)) grid-end)
     ))
 
+(defn ensure-dir [path]
+  "Ensure directory exists"
+  (let [f (io/file path)]
+    (.mkdirs f)
+    f))
+
 (defn create-cheatsheet [build layout formatted-pages]
   (let [text (layout :text)
         page(layout :page)]
@@ -159,5 +165,6 @@
                                         ;(pp/pprint h)
         ;;(pp/pprint tones)
         ;;(pp/pprint pages)
+        (ensure-dir build-dir)
         (create-cheatsheet build layout formatted-pages)
         ))))
