@@ -107,7 +107,7 @@
         cats-with-counts (map (fn [c] [c (cat-freqs c)]) (distinct col-cats))
         vlines (rest (reverse (second (reduce (fn [[total xs] [_ freq]] [(+ total freq) (conj xs total)]) [0 ()]  cats-with-counts))))
         body-rows (apply map vector (map #(nth % 1) cols))
-        header (apply str (map format-header-cell cats-with-counts))
+        header (str (apply str (map format-header-cell cats-with-counts)) "grid.hline(),")
         body (map #(apply str %) (map (fn [row] (map format-body-cell row)) body-rows))
         grid-begin (str (format "#pagebreak(weak: true)\n#grid(columns: %d, row-gutter: %s, column-gutter: %s,\n"
                                (* 2 (count cols))
