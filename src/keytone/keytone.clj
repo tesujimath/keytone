@@ -93,13 +93,24 @@
 (defn format-header-cell [[cat count]]
   (format "grid.cell(colspan: %d, align: center, [*%s*])," (* count 2) cat))
 
-(defn format-body-cell [x]
-  (cond
-    (nil? x) "grid.cell(colspan: 2, []),"
-    (string? x) (format "grid.cell(colspan: 2, align: center, [*%s*])," x)
-    :else (let [[id name] x]
-            (format "[%s],[%s]," id name)
-            )))
+(defn format-body-cell [x prepad-row prepad-col postpad-col layout]
+  (let [top-inset (if prepad-row (get-in layout [:grid :row-gutter]) "0pt")
+        id-left-inset (get-in layout [:grid :column-gutter-large])
+        name-right-inset (if postpad-col (get-in layout [:grid :column-gutter-large]) "0pt")]
+    (cond
+      (nil? x) "grid.cell(colspan: 2, []),"
+      (string? x) (format "grid.cell(colspan: 2, align: center, inset:(top:%s),[*%s*])," top-inset x)
+      :else (let [[id name] x]
+              (format "grid.cell(inset:(top:%s,left:%s,right:%s),[%s]),grid.cell(inset:(top:%s,right:%s),[%s]),"
+                      top-inset id-left-inset (get-in layout [:grid :column-gutter-small]) id
+                      top-inset name-right-inset name)))))
+
+(defn format-body-row [i row vlines layout]
+  (let [first-row (zero? i)
+        vlines (set vlines)]
+    (map-indexed #(let [prepad-col (vlines %1)
+                        postpad-col (vlines (+ %1 1))]
+                    (format-body-cell %2 first-row prepad-col postpad-col layout)) row)))
 
 (defn format-page [layout cols]
   (let [col-cats (map first cols)
@@ -108,11 +119,10 @@
         vlines (rest (reverse (second (reduce (fn [[total xs] [_ freq]] [(+ total freq) (conj xs total)]) [0 ()]  cats-with-counts))))
         body-rows (apply map vector (map #(nth % 1) cols))
         header (str (apply str (map format-header-cell cats-with-counts)) "grid.hline(),")
-        body (map #(apply str %) (map (fn [row] (map format-body-cell row)) body-rows))
-        grid-begin (str (format "#pagebreak(weak: true)\n#grid(columns: %d, row-gutter: %s, column-gutter: %s,\n"
+        body (map #(apply str %) (map-indexed #(format-body-row %1 %2 vlines layout) body-rows))
+        grid-begin (str (format "#pagebreak(weak: true)\n#grid(columns: %d, row-gutter: %s,\n"
                                (* 2 (count cols))
-                               (get-in layout [:grid :row-gutter])
-                               (get-in layout [:grid :column-gutter]))
+                               (get-in layout [:grid :row-gutter]))
                         (apply str (map #(format "grid.vline(x: %d),\n" (* 2 %)) vlines)))
         grid-end "\n)\n"
         ]

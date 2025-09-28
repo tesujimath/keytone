@@ -3,10 +3,11 @@ page:
   height: "842pt"
   margin: "12pt"
 grid:
-  rows: 42
+  rows: 41
   cols: 4
   row-gutter: "12pt"
-  column-gutter: "12pt"
+  column-gutter-large: "24pt"
+  column-gutter-small: "6pt"
 text:
   font: "Roboto"
   size: "10pt"
