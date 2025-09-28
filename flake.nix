@@ -12,28 +12,57 @@
         pkgs = import nixpkgs {
           inherit system;
         };
+
+        ci-packages = with pkgs; [
+          bashInteractive
+          clojure
+
+          coreutils
+          git
+          just
+          elvish
+          typst
+        ];
+
+        dev-packages = with pkgs; ci-packages ++ [
+          clojure-lsp
+          neil
+        ];
+
+        export-typst-font-paths = ''
+          export TYPST_FONT_PATHS=${with pkgs; with builtins; concatStringsSep ":" (map (fontPkg: fontPkg + "/share/fonts/truetype")
+                                                                                    [
+                                                                                        roboto
+                                                                                    ]
+                                                                                   )}
+        '';
       in
       with pkgs;
       {
         devShells.default = mkShell {
-          nativeBuildInputs = [
-            bashInteractive
-            clojure
-            clojure-lsp
-            neil
+          nativeBuildInputs = dev-packages;
 
-            just
-            typst
-            roboto
-          ];
+          shellHook = export-typst-font-paths;
+        };
 
-          shellHook = ''
-            export TYPST_FONT_PATHS=${with pkgs; with builtins; concatStringsSep ":" (map (fontPkg: fontPkg + "/share/fonts/truetype")
-                                                                                      [
-                                                                                          roboto
-                                                                                      ]
-                                                                                     )}
-            '';
+        apps = {
+          tests = {
+            type = "app";
+            program = "${writeShellScript "keytone-tests" ''
+                export PATH=${pkgs.lib.makeBinPath ci-packages}
+                ${export-typst-font-paths}
+                just test
+              ''}";
+          };
+
+          build = {
+            type = "app";
+            program = "${writeShellScript "keytone-build" ''
+                export PATH=${pkgs.lib.makeBinPath ci-packages}
+                ${export-typst-font-paths}
+                just build
+              ''}";
+          };
         };
       }
     );
