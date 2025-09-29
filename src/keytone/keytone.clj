@@ -4,59 +4,154 @@
             [clojure.data.csv :as csv]
             [clojure.java.io :as io]
             [clojure.pprint :as pp]
-            [clojure.string :as str])
+            [clojure.string :as str]
+            [malli.core :as m]
+            [malli.instrument :as mi]
+            [malli.util :as mu]
+            [malli.dev.pretty :as pretty])
   (:gen-class))
 
-(defn ensure-dir [path]
+;; a schema for a java.io.File
+(def File [:fn {:error/message "expected java.io.File"} #(instance? java.io.File %)])
+
+(defn ensure-dir
   "Ensure directory exists"
+  {:malli/schema [:-> :string File]}
+  [path]
   (let [f (io/file path)]
     (.mkdirs f)
     f))
 
-(defn dump-edn [name data]
+(defn dump-edn
+  "Dump data as EDN into named file in debug dir."
+  [name data]
   (ensure-dir "debug")
   (let [w (clojure.java.io/writer (io/file "debug" (format "%s.edn" name)))]
     (pp/pprint data w)))
 
-(defn yaml-files [dir-path]
+(defn yaml-files
   "Return all YAML files in directory."
+  {:malli/schema [:-> File [:seqable File]]}
+  [dir-path]
   (->> (.listFiles (io/file dir-path))
        (filter #(.isFile %))
        (filter #(-> % .getName (.endsWith ".yaml")))))
 
-(defn base-name [file-name]
+(defn base-name
+  "Return base name of file without extension."
+  [file-name]
   (let [last-dot (.lastIndexOf file-name ".")]
     (if (neg? last-dot)
       file-name
       (subs file-name 0 last-dot))
     ))
 
-(defn get-spec [yaml-file]
-  "Get the spec as a map from a YAML file, inserting its name as an extra field at the toplevel."
+(def Spec
+  "Base schema for any spec."
+  [:map
+   [:meta [:map
+           [:name :string]
+           [:dir :string]]]])
+
+(defn get-spec
+  "Get the spec as a map from a YAML file, inserting its name and dir as metadata."
+  {:malli/schema [:-> File Spec]}
+  [yaml-file]
   (let [name (base-name (.getName yaml-file))
+        dir (.getParent yaml-file)
         spec (yaml/from-file yaml-file)
-        named-spec (assoc spec :name name)]
-    named-spec
+        annotated-spec (assoc spec :meta {:name name, :dir dir})]
+    annotated-spec
     ))
 
-(defn build-spec [build-dir instrument-name layout-name style-name]
+;;(meta #'get-spec)
+
+(defn spec-name
+  "Get the name of the spec from its metadata."
+  {:malli/schema [:-> Spec :string]}
+  [s]
+  (get-in s [:meta :name]))
+
+(def InstrumentSpec
+  "A spec for an instrument."
+  (mu/merge
+   Spec
+   [:map
+    [:description :string]
+    [:header [:map
+              [:category :string]
+              [:sub-category :string]
+              [:id :string]
+              [:name :string]]]]))
+
+(defn get-instrument-spec
+  "Read a YAML file as an instrument spec."
+  {:malli/schema [:-> File InstrumentSpec]}
+  [yaml-file]
+  (get-spec yaml-file))
+
+(def LayoutSpec
+  "A spec for an layout."
+  (mu/merge
+   Spec
+   [:map
+    [:page [:map
+            [:width :string]
+            [:height :string]
+            [:margin :string]]]
+    [:grid [:map
+            [:rows :int]
+            [:cols :int]
+            [:row-gutter :int]
+            [:column-gutter-large :int]
+            [:column-gutter-small :int]]]]))
+
+(defn get-layout-spec
+  "Read a YAML file as a layout spec."
+  {:malli/schema [:-> File LayoutSpec]}
+  [yaml-file]
+  (get-spec yaml-file))
+
+(def StyleSpec
+  "A spec for a style."
+  (mu/merge
+   Spec
+   [:map
+    [:text [:map
+            [:font :string]
+            [:size :int]]]
+    [:fill [:vector :string]]]))
+
+(defn get-style-spec
+  "Read a YAML file as a style spec."
+  {:malli/schema [:-> File StyleSpec]}
+  [yaml-file]
+  (get-spec yaml-file))
+
+(defn build-paths
+  "Return paths for output files."
+  [build-dir instrument-name layout-name style-name]
   (let [out-path (fn [ext]
                    (->> (io/file build-dir (format "%s.%s.%s%s" instrument-name layout-name style-name ext)) .getPath))]
     {:typst {:out-path (out-path ".typ")}
      :pdf {:out-path (out-path ".pdf")}
      }))
 
-(defn get-field-indices [field-names header]
+(defn get-field-indices
+  "Return indices of field-names in header, assumed to be present."
+  [field-names header]
   (let [header-indices (into {} (map-indexed (fn [i v] [v i]) header))]
     (map #(get header-indices %) field-names)))
 
 
-(defn nonblank-or-default [l defaults]
+(defn nonblank-or-default
   "Take non-blank items from l, otherwise corresponding defaults."
+  [l defaults]
   (map (fn [x d] (if (empty? x) d x)) l defaults))
 
-(defn create-tone-map [tone-list]
+(defn create-tone-map
   "Create a tone map from the list."
+  [tone-list]
   (let [cats (vec (distinct (map #(nth % 0) tone-list)))
         cat-subcats (map-indexed #(vector %1 %2) (distinct (map (fn [row] [(nth row 0) (nth row 1)]) tone-list)))
         cat-subcat-unordered-list (reduce (fn [m [i-subcat [cat subcat]]]
@@ -73,8 +168,9 @@
     (dump-edn "tone-map" tone-map)
     {:cats cats :subcats cat-subcat-list :map tone-map}))
 
-(defn get-tones [tones-file {:keys [header]}]
+(defn get-tones
   "Return the tones as a map, with blank entries in the CSV propagated from last non-blank value in that column."
+  [tones-file {:keys [header]}]
   (with-open [reader (io/reader tones-file)]
     (let [rows (csv/read-csv reader)
           field-names (map #(get header %) [:category :sub-category :id :name])
@@ -92,9 +188,10 @@
       (create-tone-map defaulted-mapped-rows)
       )))
 
-(defn split-columns [cat subcats subcat-tones size]
+(defn split-columns
   "From a map of sub-categories create a list of group lists of same size, with last filled with nil.
    Subcategory names appear inline in the lists occupying a slot."
+  [cat subcats subcat-tones size]
   (let [safe-cat (-> cat
                      (str/replace " " "-")
                      (str/replace "/" "-"))
@@ -111,27 +208,30 @@
     ;; TODO nil insertion to eliminate widows
     (map (fn [col] [cat (vec col)]) (partition size size (repeat nil) linear-tones))))
 
-(defn split-pages [column-maps size]
-  "From a list of column maps create page maps"
+(defn pt
+  "Return size in points."
+  [n] (format "%dpt" n))
 
-  )
-
-(defn pt [n] (format "%dpt" n))
-
-(defn halve [n f]
+(defn halve
+  "Return the halves of the given int, such that the sum is the original, so for odd numbers they differ."
+  [n f]
   (let [top (quot n 2)
         bottom (- n top)
         ]
     [(f top) (f bottom)]))
 
-(defn format-header-cell [[cat count] layout]
+(defn format-header-cell
+  "Return header cell formatted as a typst cell."
+  [[cat count] layout]
   (let [zero-inset "0pt"
         row-gutter (get-in layout [:grid :row-gutter])
         [top bottom] (halve row-gutter pt)
         large-inset (pt (get-in layout [:grid :column-gutter-large]))]
     (format "grid.cell(colspan:%d,align:center,inset:(top:%s,bottom:%s,left:%s,right:%s),[*%s*])," (* count 2) top bottom large-inset large-inset cat)))
 
-(defn format-body-cell [maybe-cell prepad-row prepad-col postpad-col layout style]
+(defn format-body-cell
+  "Return body cell formatted as a typst cell."
+  [maybe-cell prepad-row prepad-col postpad-col layout style]
   (let [zero-inset "0pt"
         row-gutter (get-in layout [:grid :row-gutter])
         [top bottom] (halve row-gutter pt)
@@ -149,14 +249,18 @@
                       top bottom left small rgb id
                       top bottom right rgb name)))))))
 
-(defn format-body-row [i-row row vlines layout style]
+(defn format-body-row
+  "Return indexed seqable of formatted body cells in row."
+  [i-row row vlines layout style]
   (let [first-row (zero? i-row)
         vlines (set vlines)]
     (map-indexed #(let [prepad-col (vlines %1)
                         postpad-col (vlines (+ %1 1))]
                     (format-body-cell %2 first-row prepad-col postpad-col layout style)) row)))
 
-(defn format-page [layout style cols]
+(defn format-page
+  "Return whole page formatted."
+  [layout style cols]
   (let [col-cats (map first cols)
         cat-freqs (frequencies col-cats)
         cats-with-counts (map (fn [c] [c (cat-freqs c)]) (distinct col-cats))
@@ -173,7 +277,9 @@
     (str grid-begin (str/join "\n" (conj body header)) grid-end)
     ))
 
-(defn create-cheatsheet [build layout style formatted-pages]
+(defn create-cheatsheet
+  "Write out cheatsheet to paths specified in `build`,"
+  [build layout style formatted-pages]
   (let [text (style :text)
         page (layout :page)]
     (with-open [out-f (io/writer (get-in build [:typst :out-path] ))]
@@ -201,19 +307,20 @@
   "Create PDF cheatsheet for each pair of instrument and layout."
   [& args]
   (let [build-dir "build"
-        instruments (map get-spec (yaml-files (io/file "resources/instruments")))
-        layouts (map get-spec (yaml-files (io/file "resources/layouts")))
-        styles (map get-spec (yaml-files (io/file "resources/styles")))]
+        instruments (map get-instrument-spec (yaml-files (io/file "resources/instruments")))
+        layouts (map get-layout-spec (yaml-files (io/file "resources/layouts")))
+        styles (map get-style-spec (yaml-files (io/file "resources/styles")))]
     (doseq [instrument instruments
             layout layouts
             style styles]
-      (dump-edn (format "style.%s" (style :name)) style)
-      (let [csv-file (io/file "resources/instruments" (str (instrument :name) ".csv"))
+      (dump-edn (format "instrument.%s" (spec-name instrument)) instrument)
+      (dump-edn (format "style.%s" (spec-name style)) style)
+      (let [csv-file (io/file "resources/instruments" (str (spec-name instrument) ".csv"))
             tones (get-tones csv-file instrument)
             groups (mapcat (fn [cat] (split-columns cat (get-in tones [:subcats cat]) (get-in tones [:map cat]) (get-in layout [:grid :rows]))) (tones :cats))
             pages (map vec (partition (get-in layout [:grid :cols]) groups))
             formatted-pages (map #(format-page layout style %) pages)
-            build (build-spec build-dir (instrument :name) (layout :name) (style :name))]
+            build (build-paths build-dir (spec-name instrument) (spec-name layout) (spec-name style))]
         ;;(pp/pprint csv-file)
                                         ;(pp/pprint h)
         ;;(pp/pprint tones)
@@ -221,3 +328,6 @@
         (ensure-dir build-dir)
         (create-cheatsheet build layout style formatted-pages)
         ))))
+
+(mi/collect!)
+(mi/instrument! {:report (pretty/thrower)})
