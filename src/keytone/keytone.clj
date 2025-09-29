@@ -90,16 +90,21 @@
 
   )
 
-(defn format-header-cell [[cat count]]
-  (format "grid.cell(colspan: %d, align: center, [*%s*])," (* count 2) cat))
+(defn format-header-cell [[cat count] layout]
+  (let [zero-inset "0pt"
+        large-inset (get-in layout [:grid :column-gutter-large])]
+    (format "grid.cell(colspan:%d,align:center,inset:(left:%s,right:%s),[*%s*])," (* count 2) large-inset large-inset cat)))
 
 (defn format-body-cell [x prepad-row prepad-col postpad-col layout]
-  (let [top-inset (if prepad-row (get-in layout [:grid :row-gutter]) "0pt")
-        id-left-inset (get-in layout [:grid :column-gutter-large])
-        name-right-inset (if postpad-col (get-in layout [:grid :column-gutter-large]) "0pt")]
+  (let [zero-inset "0pt"
+        top-inset (if prepad-row (get-in layout [:grid :row-gutter]) zero-inset)
+        large-inset (get-in layout [:grid :column-gutter-large])
+        small-inset (get-in layout [:grid :column-gutter-small])
+        id-left-inset large-inset
+        name-right-inset (if postpad-col large-inset zero-inset)]
     (cond
       (nil? x) "grid.cell(colspan: 2, []),"
-      (string? x) (format "grid.cell(colspan: 2, align: center, inset:(top:%s),[*%s*])," top-inset x)
+      (string? x) (format "grid.cell(colspan: 2, align: center, inset:(top:%s,left:%s,right:%s),[*%s*])," top-inset large-inset large-inset x)
       :else (let [[id name] x]
               (format "grid.cell(inset:(top:%s,left:%s,right:%s),[%s]),grid.cell(inset:(top:%s,right:%s),[%s]),"
                       top-inset id-left-inset (get-in layout [:grid :column-gutter-small]) id
@@ -118,7 +123,7 @@
         cats-with-counts (map (fn [c] [c (cat-freqs c)]) (distinct col-cats))
         vlines (rest (reverse (second (reduce (fn [[total xs] [_ freq]] [(+ total freq) (conj xs total)]) [0 ()]  cats-with-counts))))
         body-rows (apply map vector (map #(nth % 1) cols))
-        header (str (apply str (map format-header-cell cats-with-counts)) "grid.hline(),")
+        header (str (apply str (map #(format-header-cell % layout) cats-with-counts)) "grid.hline(),")
         body (map #(apply str %) (map-indexed #(format-body-row %1 %2 vlines layout) body-rows))
         grid-begin (str (format "#pagebreak(weak: true)\n#grid(columns: %d, row-gutter: %s,\n"
                                (* 2 (count cols))
