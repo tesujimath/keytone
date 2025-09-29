@@ -27,4 +27,5 @@
 /target
 /.direnv/
 /build/
+/debug/
 .~lock*

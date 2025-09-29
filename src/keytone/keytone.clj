@@ -7,6 +7,17 @@
             [clojure.string :as str])
   (:gen-class))
 
+(defn ensure-dir [path]
+  "Ensure directory exists"
+  (let [f (io/file path)]
+    (.mkdirs f)
+    f))
+
+(defn dump-edn [name data]
+  (ensure-dir "debug")
+  (let [w (clojure.java.io/writer (io/file "debug" (format "%s.edn" name)))]
+    (pp/pprint data w)))
+
 (defn yaml-files [dir-path]
   "Return all YAML files in directory."
   (->> (.listFiles (io/file dir-path))
@@ -28,9 +39,9 @@
     named-spec
     ))
 
-(defn build-spec [build-dir instrument-name layout-name]
+(defn build-spec [build-dir instrument-name layout-name style-name]
   (let [out-path (fn [ext]
-                   (->> (io/file build-dir (format "%s.%s%s" instrument-name layout-name ext)) .getPath))]
+                   (->> (io/file build-dir (format "%s.%s.%s%s" instrument-name layout-name style-name ext)) .getPath))]
     {:typst {:out-path (out-path ".typ")}
      :pdf {:out-path (out-path ".pdf")}
      }))
@@ -47,20 +58,23 @@
 (defn create-tone-map [tone-list]
   "Create a tone map from the list."
   (let [cats (vec (distinct (map #(nth % 0) tone-list)))
-        cat-subcats (distinct (map (fn [row] [(nth row 0) (nth row 1)]) tone-list))
-        cat-subcat-unordered-list (reduce (fn [m [cat subcat]]
-                                            (update m cat #(conj % subcat))) {} cat-subcats)
+        cat-subcats (map-indexed #(vector %1 %2) (distinct (map (fn [row] [(nth row 0) (nth row 1)]) tone-list)))
+        cat-subcat-unordered-list (reduce (fn [m [i-subcat [cat subcat]]]
+                                            (update m cat #(conj % [i-subcat subcat]))) {} cat-subcats)
         cat-subcat-list (into {} (map (fn [[k v]] [k (reverse v)]) cat-subcat-unordered-list))
         tone-map (reduce (fn [m [cat subcat id name]]
                            (update-in m [cat subcat] #(conj % [id name])))
                          {}
                          (reverse tone-list))
         ]
-    ;;(pp/pprint cat-subcat-list)
-    { :cats cats :subcats cat-subcat-list :map tone-map}))
+    (dump-edn "cats" cats)
+    (dump-edn "cat-subcats" cat-subcats)
+    (dump-edn "cat-subcat-list" cat-subcat-list)
+    (dump-edn "tone-map" tone-map)
+    {:cats cats :subcats cat-subcat-list :map tone-map}))
 
 (defn get-tones [tones-file {:keys [header]}]
-  "Return the tones as a vector of maps, with blank entries in the CSV propagated from last non-blank value in that column."
+  "Return the tones as a map, with blank entries in the CSV propagated from last non-blank value in that column."
   (with-open [reader (io/reader tones-file)]
     (let [rows (csv/read-csv reader)
           field-names (map #(get header %) [:category :sub-category :id :name])
@@ -81,7 +95,19 @@
 (defn split-columns [cat subcats subcat-tones size]
   "From a map of sub-categories create a list of group lists of same size, with last filled with nil.
    Subcategory names appear inline in the lists occupying a slot."
-  (let [linear-tones (mapcat #(conj (get subcat-tones %) %) subcats)]
+  (let [safe-cat (-> cat
+                     (str/replace " " "-")
+                     (str/replace "/" "-"))
+        dummy1 (dump-edn (format "subcats.%s" safe-cat) subcats)
+        dummy2 (dump-edn (format "subcat-tones.%s" safe-cat) subcat-tones)
+        linear-tones (mapcat (fn [[i-subcat subcat]] (conj (map #(vector i-subcat %)
+                                                                (get subcat-tones subcat))
+                                                           [i-subcat subcat]))
+                             subcats)]
+    (dump-edn (format "subcat-tones.%s" safe-cat)
+              subcat-tones)
+    (dump-edn (format "linear-tones.%s" safe-cat)
+              linear-tones)
     ;; TODO nil insertion to eliminate widows
     (map (fn [col] [cat (vec col)]) (partition size size (repeat nil) linear-tones))))
 
@@ -90,59 +116,66 @@
 
   )
 
+(defn pt [n] (format "%dpt" n))
+
+(defn halve [n f]
+  (let [top (quot n 2)
+        bottom (- n top)
+        ]
+    [(f top) (f bottom)]))
+
 (defn format-header-cell [[cat count] layout]
   (let [zero-inset "0pt"
-        large-inset (get-in layout [:grid :column-gutter-large])]
-    (format "grid.cell(colspan:%d,align:center,inset:(left:%s,right:%s),[*%s*])," (* count 2) large-inset large-inset cat)))
+        row-gutter (get-in layout [:grid :row-gutter])
+        [top bottom] (halve row-gutter pt)
+        large-inset (pt (get-in layout [:grid :column-gutter-large]))]
+    (format "grid.cell(colspan:%d,align:center,inset:(top:%s,bottom:%s,left:%s,right:%s),[*%s*])," (* count 2) top bottom large-inset large-inset cat)))
 
-(defn format-body-cell [x prepad-row prepad-col postpad-col layout]
+(defn format-body-cell [maybe-cell prepad-row prepad-col postpad-col layout style]
   (let [zero-inset "0pt"
-        top-inset (if prepad-row (get-in layout [:grid :row-gutter]) zero-inset)
-        large-inset (get-in layout [:grid :column-gutter-large])
-        small-inset (get-in layout [:grid :column-gutter-small])
-        id-left-inset large-inset
-        name-right-inset (if postpad-col large-inset zero-inset)]
-    (cond
-      (nil? x) "grid.cell(colspan: 2, []),"
-      (string? x) (format "grid.cell(colspan: 2, align: center, inset:(top:%s,left:%s,right:%s),[*%s*])," top-inset large-inset large-inset x)
-      :else (let [[id name] x]
-              (format "grid.cell(inset:(top:%s,left:%s,right:%s),[%s]),grid.cell(inset:(top:%s,right:%s),[%s]),"
-                      top-inset id-left-inset (get-in layout [:grid :column-gutter-small]) id
-                      top-inset name-right-inset name)))))
+        row-gutter (get-in layout [:grid :row-gutter])
+        [top bottom] (halve row-gutter pt)
+        [left right] (halve (get-in layout [:grid :column-gutter-large]) pt)
+        small (pt (get-in layout [:grid :column-gutter-small]))]
+    (if (nil? maybe-cell) "grid.cell(colspan:2,fill:none,[]),"
+        (let [[i-tone cell] maybe-cell
+              fill (style :fill)
+              rgb (format "rgb(\"%s\")" (fill (mod i-tone (count fill))))]
+          (if (string? cell)
+            (format "grid.cell(colspan: 2, align: center, inset:(top:%s,bottom:%s,left:%s,right:%s),fill:%s,[*%s*]),"
+                    top bottom left right rgb cell)
+            (let [[id name] cell]
+              (format "grid.cell(inset:(top:%s,bottom:%s,left:%s,right:%s),fill:%s,[%s]),grid.cell(inset:(top:%s,bottom:%s,right:%s),fill:%s,[%s]),"
+                      top bottom left small rgb id
+                      top bottom right rgb name)))))))
 
-(defn format-body-row [i row vlines layout]
-  (let [first-row (zero? i)
+(defn format-body-row [i-row row vlines layout style]
+  (let [first-row (zero? i-row)
         vlines (set vlines)]
     (map-indexed #(let [prepad-col (vlines %1)
                         postpad-col (vlines (+ %1 1))]
-                    (format-body-cell %2 first-row prepad-col postpad-col layout)) row)))
+                    (format-body-cell %2 first-row prepad-col postpad-col layout style)) row)))
 
-(defn format-page [layout cols]
+(defn format-page [layout style cols]
   (let [col-cats (map first cols)
         cat-freqs (frequencies col-cats)
         cats-with-counts (map (fn [c] [c (cat-freqs c)]) (distinct col-cats))
         vlines (rest (reverse (second (reduce (fn [[total xs] [_ freq]] [(+ total freq) (conj xs total)]) [0 ()]  cats-with-counts))))
         body-rows (apply map vector (map #(nth % 1) cols))
+        dummy (dump-edn "body-rows" body-rows)
         header (str (apply str (map #(format-header-cell % layout) cats-with-counts)) "grid.hline(),")
-        body (map #(apply str %) (map-indexed #(format-body-row %1 %2 vlines layout) body-rows))
-        grid-begin (str (format "#pagebreak(weak: true)\n#grid(columns: %d, row-gutter: %s,\n"
-                               (* 2 (count cols))
-                               (get-in layout [:grid :row-gutter]))
+        body (map #(apply str %) (map-indexed #(format-body-row %1 %2 vlines layout style) body-rows))
+        grid-begin (str (format "#pagebreak(weak:true)\n#grid(columns:%d,\n"
+                                (* 2 (count cols)))
                         (apply str (map #(format "grid.vline(x: %d),\n" (* 2 %)) vlines)))
         grid-end "\n)\n"
         ]
     (str grid-begin (str/join "\n" (conj body header)) grid-end)
     ))
 
-(defn ensure-dir [path]
-  "Ensure directory exists"
-  (let [f (io/file path)]
-    (.mkdirs f)
-    f))
-
-(defn create-cheatsheet [build layout formatted-pages]
-  (let [text (layout :text)
-        page(layout :page)]
+(defn create-cheatsheet [build layout style formatted-pages]
+  (let [text (style :text)
+        page (layout :page)]
     (with-open [out-f (io/writer (get-in build [:typst :out-path] ))]
       (let [header (format "#set text(font: \"%s\", size: %s)
 
@@ -153,7 +186,7 @@
 )
 "
                            (text :font)
-                           (text :size)
+                           (pt (text :size))
                            (page :width)
                            (page :height)
                            (page :margin)
@@ -169,19 +202,22 @@
   [& args]
   (let [build-dir "build"
         instruments (map get-spec (yaml-files (io/file "resources/instruments")))
-        layouts (map get-spec (yaml-files (io/file "resources/layouts")))]
+        layouts (map get-spec (yaml-files (io/file "resources/layouts")))
+        styles (map get-spec (yaml-files (io/file "resources/styles")))]
     (doseq [instrument instruments
-            layout layouts]
+            layout layouts
+            style styles]
+      (dump-edn (format "style.%s" (style :name)) style)
       (let [csv-file (io/file "resources/instruments" (str (instrument :name) ".csv"))
             tones (get-tones csv-file instrument)
             groups (mapcat (fn [cat] (split-columns cat (get-in tones [:subcats cat]) (get-in tones [:map cat]) (get-in layout [:grid :rows]))) (tones :cats))
             pages (map vec (partition (get-in layout [:grid :cols]) groups))
-            formatted-pages (map #(format-page layout %) pages)
-            build (build-spec build-dir (instrument :name) (layout :name))]
+            formatted-pages (map #(format-page layout style %) pages)
+            build (build-spec build-dir (instrument :name) (layout :name) (style :name))]
         ;;(pp/pprint csv-file)
                                         ;(pp/pprint h)
         ;;(pp/pprint tones)
         ;;(pp/pprint pages)
         (ensure-dir build-dir)
-        (create-cheatsheet build layout formatted-pages)
+        (create-cheatsheet build layout style formatted-pages)
         ))))

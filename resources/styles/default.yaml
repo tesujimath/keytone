@@ -1,0 +1,28 @@
+text:
+  font: "Roboto"
+  size: 9
+fill:
+  # Colours suggested by ChatGPT as follows:
+  # - all colours are light (pastel) — their RGB values are closer to 255
+  # - the order is chosen to spread visually distinct hues around the spectrum
+  # - suitable for categorical data visualization, e.g., plotting, charts, or UI tags
+  - "#FFB3BA" # soft pink
+  - "#BAE1FF" # baby blue
+  - "#BAFFC9" # mint green
+  - "#FFDFBA" # light peach
+  - "#F0FFBA" # light lime
+  - "#FFBAF1" # soft magenta
+  - "#BAFFD8" # soft turquoise
+  - "#FFD2BA" # peachy
+  - "#BAC5FF" # lavender
+  - "#FFF5BA" # soft butter
+  - "#FFBAD2" # cotton candy
+  - "#C8FFBA" # soft green
+  - "#FFE6BA" # pale orange
+  - "#BAFFFF" # pale cyan
+  - "#FFCEBA" # apricot
+  - "#BAE1F5" # pale sky blue
+  - "#FFBAC8" # rose blush
+  - "#E6FFBA" # light chartreuse
+  - "#F5BAFF" # lilac
+  - "#BAFFEF" # soft aqua

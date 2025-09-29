@@ -5,9 +5,6 @@ page:
 grid:
   rows: 41
   cols: 4
-  row-gutter: "12pt"
-  column-gutter-large: "24pt"
-  column-gutter-small: "6pt"
-text:
-  font: "Roboto"
-  size: "10pt"
+  row-gutter: 12
+  column-gutter-large: 24
+  column-gutter-small: 6
