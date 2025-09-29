@@ -1,9 +1,9 @@
 page:
   width: "800pt"
-  height: "500pt"
-  margin: "10pt"
+  height: "470pt"
+  margin: "4pt"
 grid:
-  rows: 28
+  rows: 27
   cols: 6
   row-gutter: 10
   column-gutter-large: 18
