@@ -149,44 +149,54 @@
   [l defaults]
   (map (fn [x d] (if (empty? x) d x)) l defaults))
 
-(defn create-tone-map
-  "Create a tone map from the list."
-  [tone-list]
-  (let [cats (vec (distinct (map #(nth % 0) tone-list)))
-        cat-subcats (map-indexed #(vector %1 %2) (distinct (map (fn [row] [(nth row 0) (nth row 1)]) tone-list)))
-        cat-subcat-unordered-list (reduce (fn [m [i-subcat [cat subcat]]]
-                                            (update m cat #(conj % [i-subcat subcat]))) {} cat-subcats)
-        cat-subcat-list (into {} (map (fn [[k v]] [k (reverse v)]) cat-subcat-unordered-list))
-        tone-map (reduce (fn [m [cat subcat id name]]
-                           (update-in m [cat subcat] #(conj % [id name])))
-                         {}
-                         (reverse tone-list))
-        ]
-    (dump-edn "cats" cats)
-    (dump-edn "cat-subcats" cat-subcats)
-    (dump-edn "cat-subcat-list" cat-subcat-list)
-    (dump-edn "tone-map" tone-map)
-    {:cats cats :subcats cat-subcat-list :map tone-map}))
+(def Cats
+  "All category names"
+  [:vector :string])
+
+(def Subcats
+  "Map of sub-category by category name, where the sub-categories appear with their index in the overall list of all sub-categories."
+  [:map-of :string
+   [:sequential [:tuple :int :string]]] ;; [subcat-index subcat-name]
+  )
+
+(def Tones
+  "Map returned by `get-tones`."
+  [:map-of :string ; cat name
+   [:map-of :string ; subcat name
+    [:sequential [:tuple :string :string]]]]) ; [tone-id tone-name]
 
 (defn get-tones
-  "Return the tones as a map, with blank entries in the CSV propagated from last non-blank value in that column."
-  [tones-file {:keys [header]}]
-  (with-open [reader (io/reader tones-file)]
-    (let [rows (csv/read-csv reader)
-          field-names (map #(get header %) [:category :sub-category :id :name])
-          blank-fields (map (fn [_] "") field-names)
-          field-indices (get-field-indices field-names (first rows))
-          field-getters (map #(fn [row] (get row %)) field-indices)
-          row-mapper (fn [row] (map #(% row) field-getters))
-          mapped-rows (map row-mapper (rest rows))
-          defaulted-mapped-rows (reverse (first (reduce (fn [[rows defaults] row]
-                                                          (let [merged (nonblank-or-default row defaults)]
-                                                            [(conj rows merged) merged]))
-                                                        ['() blank-fields] mapped-rows)))
-          ]
-      ;;(pp/pprint field-names)
-      (create-tone-map defaulted-mapped-rows)
-      )))
+  "Return the cats, subcats, and tones, with blank entries in the CSV propagated from last non-blank value in that column."
+  {:malli/schema [:-> InstrumentSpec [:tuple Cats Subcats Tones]]}
+  [instrument]
+  (let [tones-file (io/file "resources/instruments" (str (spec-name instrument) ".csv"))]
+    (with-open [reader (io/reader tones-file)]
+      (let [rows (csv/read-csv reader)
+            field-names (map #(get-in instrument [:header %]) [:category :sub-category :id :name])
+            blank-fields (map (fn [_] "") field-names)
+            field-indices (get-field-indices field-names (first rows))
+            field-getters (map #(fn [row] (get row %)) field-indices)
+            row-mapper (fn [row] (map #(% row) field-getters))
+            mapped-rows (map row-mapper (rest rows))
+            tone-list (reverse (first (reduce (fn [[rows defaults] row]
+                                                            (let [merged (nonblank-or-default row defaults)]
+                                                              [(conj rows merged) merged]))
+                                                          ['() blank-fields] mapped-rows)))
+            cats (vec (distinct (map #(nth % 0) tone-list)))
+            cat-subcats (map-indexed #(vector %1 %2) (distinct (map (fn [row] [(nth row 0) (nth row 1)]) tone-list)))
+            reversed-subcats (reduce (fn [m [i-subcat [cat subcat]]]
+                                                (update m cat #(conj % [i-subcat subcat]))) {} cat-subcats)
+            subcats (into {} (map (fn [[k v]] [k (reverse v)]) reversed-subcats))
+            tones (reduce (fn [m [cat subcat id name]]
+                               (update-in m [cat subcat] #(conj % [id name])))
+                             {}
+                             (reverse tone-list))
+            ]
+        (dump-edn "cats" cats)
+        (dump-edn "subcats" subcats)
+        (dump-edn "tones" tones)
+        [cats subcats tones]
+        ))))
 
 (defn split-columns
   "From a map of sub-categories create a list of group lists of same size, with last filled with nil.
@@ -315,16 +325,11 @@
             style styles]
       (dump-edn (format "instrument.%s" (spec-name instrument)) instrument)
       (dump-edn (format "style.%s" (spec-name style)) style)
-      (let [csv-file (io/file "resources/instruments" (str (spec-name instrument) ".csv"))
-            tones (get-tones csv-file instrument)
-            groups (mapcat (fn [cat] (split-columns cat (get-in tones [:subcats cat]) (get-in tones [:map cat]) (get-in layout [:grid :rows]))) (tones :cats))
+      (let [[cats subcats tones] (get-tones instrument)
+            groups (mapcat (fn [cat] (split-columns cat (subcats cat) (tones cat) (get-in layout [:grid :rows]))) cats)
             pages (map vec (partition (get-in layout [:grid :cols]) groups))
             formatted-pages (map #(format-page layout style %) pages)
             build (build-paths build-dir (spec-name instrument) (spec-name layout) (spec-name style))]
-        ;;(pp/pprint csv-file)
-                                        ;(pp/pprint h)
-        ;;(pp/pprint tones)
-        ;;(pp/pprint pages)
         (ensure-dir build-dir)
         (create-cheatsheet build layout style formatted-pages)
         ))))
