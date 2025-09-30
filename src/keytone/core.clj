@@ -1,4 +1,4 @@
-(ns keytone.keytone
+(ns keytone.core
   (:refer-clojure :exclude [load])
   (:require [yaml.core :as yaml]
             [clojure.data.csv :as csv]
@@ -289,10 +289,12 @@
 
 (defn create-cheatsheet
   "Write out cheatsheet to paths specified in `build`,"
-  [build layout style formatted-pages]
+  {:malli/schema [:=> [:cat File LayoutSpec StyleSpec [:sequential :string]] :nil]}
+  [out-path layout style formatted-pages]
   (let [text (style :text)
         page (layout :page)]
-    (with-open [out-f (io/writer (get-in build [:typst :out-path] ))]
+    (ensure-dir (.getParent out-path))
+    (with-open [out-f (io/writer out-path)]
       (let [header (format "#set text(font: \"%s\", size: %s)
 
 #set page(
@@ -312,27 +314,3 @@
         (doseq [page formatted-pages]
           (.write out-f page))
         (.write out-f trailer)))))
-
-(defn -main
-  "Create PDF cheatsheet for each pair of instrument and layout."
-  [& args]
-  (let [build-dir "build"
-        instruments (map get-instrument-spec (yaml-files (io/file "resources/instruments")))
-        layouts (map get-layout-spec (yaml-files (io/file "resources/layouts")))
-        styles (map get-style-spec (yaml-files (io/file "resources/styles")))]
-    (doseq [instrument instruments
-            layout layouts
-            style styles]
-      (dump-edn (format "instrument.%s" (spec-name instrument)) instrument)
-      (dump-edn (format "style.%s" (spec-name style)) style)
-      (let [[cats subcats tones] (get-tones instrument)
-            groups (mapcat (fn [cat] (split-columns cat (subcats cat) (tones cat) (get-in layout [:grid :rows]))) cats)
-            pages (map vec (partition (get-in layout [:grid :cols]) groups))
-            formatted-pages (map #(format-page layout style %) pages)
-            build (build-paths build-dir (spec-name instrument) (spec-name layout) (spec-name style))]
-        (ensure-dir build-dir)
-        (create-cheatsheet build layout style formatted-pages)
-        ))))
-
-(mi/collect!)
-(mi/instrument! {:report (pretty/thrower)})

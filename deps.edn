@@ -4,7 +4,9 @@
         org.clojure/data.csv  {:mvn/version "1.1.0"}
         metosin/malli {:mvn/version "0.19.1"}}
  :aliases
- {:run-m {:main-opts ["-m" "keytone.keytone"]}
+ {:dev {:extra-paths ["dev"]
+        :main-opts ["-m" "user"]}
+  :run-m {:main-opts ["-m" "keytone.main"]}
   :run-x {:ns-default keytone.keytone
           :exec-fn greet
           :exec-args {:name "Clojure"}}
