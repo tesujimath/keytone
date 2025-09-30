@@ -16,7 +16,7 @@
           layout (kf/get-layout-specs)
           style (kf/get-style-specs)]
     (let [[cats subcats tones] (k/get-tones instrument)
-          groups (mapcat (fn [cat] (k/split-columns cat (subcats cat) (tones cat) (get-in layout [:grid :rows]))) cats)
+          groups (k/collate-groups (get-in layout [:grid :rows]) cats subcats tones)
           pages (map vec (partition (get-in layout [:grid :cols]) groups))
           formatted-pages (map #(k/format-page layout style %) pages)]
       (k/create-cheatsheet (kf/build-path ".typ" (k/spec-name instrument) (k/spec-name layout) (k/spec-name style))

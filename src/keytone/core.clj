@@ -150,24 +150,40 @@
   (map (fn [x d] (if (empty? x) d x)) l defaults))
 
 (def Cats
-  "All category names"
+  "Category names"
   [:vector :string])
 
+(def Subcat
+  "Sub-category with its index in the global list of all subcats (for colouring)."
+  [:tuple :int :string])  ; [index name]
+
 (def Subcats
+  "List of sub-categories each with its index."
+  [:sequential Subcat])
+
+(def SubcatsByCat
   "Map of sub-category by category name, where the sub-categories appear with their index in the overall list of all sub-categories."
-  [:map-of :string
-   [:sequential [:tuple :int :string]]] ;; [subcat-index subcat-name]
-  )
+  [:map-of :string Subcats])
+
+(def Tone
+  "A tone with its id."
+  [:tuple :string :string]) ; [id name]
 
 (def Tones
-  "Map returned by `get-tones`."
-  [:map-of :string ; cat name
-   [:map-of :string ; subcat name
-    [:sequential [:tuple :string :string]]]]) ; [tone-id tone-name]
+  "A list of tones."
+  [:sequential Tone])
+
+(def TonesBySubcat
+  "Map of list of tones for each subcat."
+  [:map-of :string Tones])
+
+(def TonesBySubcatByCat
+  "Map returned by `get-tones`, indexed by cat."
+  [:map-of :string TonesBySubcat])
 
 (defn get-tones
   "Return the cats, subcats, and tones, with blank entries in the CSV propagated from last non-blank value in that column."
-  {:malli/schema [:-> InstrumentSpec [:tuple Cats Subcats Tones]]}
+  {:malli/schema [:-> InstrumentSpec [:tuple Cats SubcatsByCat TonesBySubcatByCat]]}
   [instrument]
   (let [tones-file (io/file "resources/instruments" (str (spec-name instrument) ".csv"))]
     (with-open [reader (io/reader tones-file)]
@@ -198,25 +214,41 @@
         [cats subcats tones]
         ))))
 
+(def Columns
+  "Result of `split-columns`"
+  [:sequential [:tuple :string [:vector [:tuple :int :string]]]])
+
 (defn split-columns
   "From a map of sub-categories create a list of group lists of same size, with last filled with nil.
    Subcategory names appear inline in the lists occupying a slot."
-  [cat subcats subcat-tones size]
+  {:malli/schema [:=> [:cat :int :string Subcats TonesBySubcat] :any]}
+  [size cat subcats tones]
   (let [safe-cat (-> cat
                      (str/replace " " "-")
                      (str/replace "/" "-"))
         dummy1 (dump-edn (format "subcats.%s" safe-cat) subcats)
-        dummy2 (dump-edn (format "subcat-tones.%s" safe-cat) subcat-tones)
+        dummy2 (dump-edn (format "tones.%s" safe-cat) tones)
         linear-tones (mapcat (fn [[i-subcat subcat]] (conj (map #(vector i-subcat %)
-                                                                (get subcat-tones subcat))
+                                                                (get tones subcat))
                                                            [i-subcat subcat]))
-                             subcats)]
-    (dump-edn (format "subcat-tones.%s" safe-cat)
-              subcat-tones)
+                             subcats)
+        columns (map (fn [col] [cat (vec col)]) (partition size size (repeat nil) linear-tones))
+        ;; TODO nil insertion to eliminate widows
+        ]
+    (dump-edn (format "tones.%s" safe-cat)
+              tones)
     (dump-edn (format "linear-tones.%s" safe-cat)
               linear-tones)
-    ;; TODO nil insertion to eliminate widows
-    (map (fn [col] [cat (vec col)]) (partition size size (repeat nil) linear-tones))))
+    (dump-edn (format "columns.%s" safe-cat)
+              columns)
+    columns))
+
+(defn collate-groups
+  "Collate groups across all columns"
+  [size cats subcats tones]
+  (let [groups (mapcat (fn [cat] (split-columns size cat (subcats cat) (tones cat))) cats)]
+    (dump-edn "groups" groups)
+    groups))
 
 (defn pt
   "Return size in points."
