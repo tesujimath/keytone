@@ -7,4 +7,4 @@
     (let [tone-list [["Piano" "Electric Piano" "001" "80s FM1"]]
           ]
       (is (= (create-tone-map tone-list)
-             {:cats ["Piano"], :subcats {"Piano" '("Electric Piano")}, :map {"Piano" {"Electric Piano" '(["001" "80s FM1"])}}})))))
+             {:cats ["Piano"], :subcats {"Piano" '([0 "Electric Piano"])}, :map {"Piano" {"Electric Piano" '(["001" "80s FM1"])}}})))))
