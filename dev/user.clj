@@ -6,19 +6,22 @@
             [malli.instrument :as mi]
             [malli.dev.pretty :as pretty]))
 
-(defn instrument-core! []
-  (mi/collect! {:ns ['keytone.core]})
-  (mi/instrument! {:report (pretty/thrower)})
-  (println "🔧 Malli instrumentation enabled for keytone.core"))
+(def keytone-namespaces ['keytone.core 'keytone.files])
 
-(defn unstrument-core! []
+(defn instrument-keytone! []
+  (mi/collect! {:ns keytone-namespaces})
+  (mi/instrument! {:report (pretty/thrower)})
+  (println "🔧 Malli instrumentation enabled for keytone.*"))
+
+(defn unstrument-keytone! []
   (mi/unstrument!)
   (println "⏹ Malli instrumentation disabled"))
 
-(defn reset-core! []
+(defn reset-keytone! []
   (println "Reloading...")
-  (require 'keytone.core :reload)
-  (instrument-core!))
+  (doseq [ns keytone-namespaces]
+    (require ns :reload))
+  (instrument-keytone!))
 
 ;; Auto-run when REPL starts
-(instrument-core!)
+(instrument-keytone!)
