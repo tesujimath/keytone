@@ -1,6 +1,7 @@
 text:
   font: "Roboto"
   size: 9
+  unit: "pt"
 fill:
   # Colours suggested by ChatGPT as follows:
   # - all colours are light (pastel) — their RGB values are closer to 255

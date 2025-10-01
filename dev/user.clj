@@ -4,7 +4,8 @@
             [keytone.core :as k]
             [keytone.main :as km]
             [malli.instrument :as mi]
-            [malli.dev.pretty :as pretty]))
+            [malli.dev.pretty :as pretty]
+            [user.dummy :as dummy]))
 
 (def keytone-namespaces ['keytone.core 'keytone.files])
 
@@ -25,3 +26,6 @@
 
 ;; Auto-run when REPL starts
 (instrument-keytone!)
+
+;; dummy data
+(def dummy)

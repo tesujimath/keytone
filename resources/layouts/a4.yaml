@@ -1,7 +1,8 @@
+unit: "pt"
 page:
-  width: "595pt"
-  height: "842pt"
-  margin: "12pt"
+  width: 595
+  height: 842
+  margin: 12
 grid:
   rows: 41
   cols: 4

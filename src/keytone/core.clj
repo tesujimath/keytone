@@ -60,10 +60,11 @@
   (mu/merge
    Spec
    [:map
+    [:unit :string]
     [:page [:map
-            [:width :string]
-            [:height :string]
-            [:margin :string]]]
+            [:width :int]
+            [:height :int]
+            [:margin :int]]]
     [:grid [:map
             [:rows :int]
             [:cols :int]
@@ -78,7 +79,8 @@
    [:map
     [:text [:map
             [:font :string]
-            [:size :int]]]
+            [:size :int]
+            [:unit :string]]]
     [:fill [:sequential :string]]]))
 
 (defn get-field-indices
@@ -294,20 +296,21 @@
   {:malli/schema [:=> [:cat Writer LayoutSpec StyleSpec [:sequential :string]] :nil]}
   [w layout style formatted-pages]
   (let [text (style :text)
+        layout-unit (layout :unit)
         page (layout :page)
-        header (format "#set text(font: \"%s\", size: %s)
+        header (format "#set text(font: \"%s\", size: %d%s)
 
 #set page(
-  width: %s,
-  height: %s,
-  margin: %s,
+  width: %d%s,
+  height: %d%s,
+  margin: %d%s,
 )
 "
                        (text :font)
-                       (pt (text :size))
-                       (page :width)
-                       (page :height)
-                       (page :margin)
+                       (text :size) (text :unit)
+                       (page :width) layout-unit
+                       (page :height) layout-unit
+                       (page :margin) layout-unit
                        )
         trailer ""]
     (.write w header)
