@@ -215,9 +215,11 @@
 
 (defn partition-columns-into-pages
   "Partition according to the page width in columns."
-  {:malli/schema [:=> [:cat :int [:sequential Column]] [:sequential Page]]}
-  [page-width columns]
-  (let [pages (map vec (partition page-width columns))]
+  {:malli/schema [:=> [:cat :int :int [:sequential Column]] [:sequential Page]]}
+  [rows cols columns]
+  (let [empty-column [nil (vec (repeat rows nil))]
+        ;; need to include empty columns for the partition, but then we immediately filter them out
+        pages (map #(vec (filter (comp some? first) %)) (partition cols cols (repeat empty-column) columns))]
     (dump-edn "pages" pages)
     pages))
 

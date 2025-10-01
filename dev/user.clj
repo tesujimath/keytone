@@ -2,6 +2,7 @@
   (:require [clojure.repl :refer :all]
             [clojure.java.io :as io]
             [keytone.core :as k]
+            [keytone.files :as kf]
             [keytone.main :as km]
             [malli.instrument :as mi]
             [malli.dev.pretty :as pretty]

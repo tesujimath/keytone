@@ -21,7 +21,7 @@
           [cats subcats tones] (k/get-tones instrument raw-tones)
           grid (layout :grid)
           columns (k/partition-into-columns (grid :rows) cats subcats tones)
-          pages (k/partition-columns-into-pages (grid :cols) columns)
+          pages (k/partition-columns-into-pages (grid :rows) (grid :cols) columns)
           formatted-pages (map #(k/format-page layout style %) pages)]
       (kf/create-cheatsheet (k/spec-name instrument)
                             layout
