@@ -1,4 +1,4 @@
-(ns user.dummy
+(ns dummy
   (:require [malli.core :as m]
             [malli.instrument :as mi]
             [malli.util :as mu]
