@@ -27,3 +27,4 @@ fill:
   - "#E6FFBA" # light chartreuse
   - "#F5BAFF" # lilac
   - "#BAFFEF" # soft aqua
+stroke: "#E0E0E0"

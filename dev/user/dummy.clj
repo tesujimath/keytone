@@ -58,5 +58,6 @@
              :fill ["#FFB3BA" ; soft pink
                     "#BAE1FF" ; baby blue
                     "#BAFFC9" ; mint green
-                    ]})
+                    ]
+             :stroke "FF0000"})
 (validate! k/StyleSpec style1)

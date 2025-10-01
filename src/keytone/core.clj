@@ -81,7 +81,8 @@
             [:font :string]
             [:size :int]
             [:unit :string]]]
-    [:fill [:sequential :string]]]))
+    [:fill [:sequential :string]]
+    [:stroke :string]]))
 
 (defn get-field-indices
   "Return indices of field-names in header, assumed to be present."
@@ -283,11 +284,11 @@
         vlines (rest (reverse (second (reduce (fn [[total xs] [_ freq]] [(+ total freq) (conj xs total)]) [0 ()]  cats-with-counts))))
         body-rows (apply map vector (map #(nth % 1) page))
         dummy (dump-edn "body-rows" body-rows)
-        header (str (apply str (map #(format-header-cell % layout) cats-with-counts)) "grid.hline(),")
+        header (apply str (map #(format-header-cell % layout) cats-with-counts))
         body (map #(apply str %) (map-indexed #(format-body-row %1 %2 vlines layout style) body-rows))
         grid-begin (str (format "#pagebreak(weak:true)\n#grid(columns:%d,\n"
                                 (* 2 (count page)))
-                        (apply str (map #(format "grid.vline(x: %d),\n" (* 2 %)) vlines)))
+                        (apply str (map #(format "grid.vline(x: %d, stroke: rgb(\"%s\")),\n" (* 2 %) (style :stroke)) vlines)))
         grid-end "\n)\n"
         ]
     (str grid-begin (str/join "\n" (conj body header)) grid-end)
