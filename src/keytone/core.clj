@@ -1,8 +1,6 @@
 (ns keytone.core
   (:refer-clojure :exclude [load])
-  (:require [yaml.core :as yaml]
-            [clojure.data.csv :as csv]
-            [clojure.java.io :as io]
+  (:require [clojure.java.io :as io]
             [clojure.pprint :as pp]
             [clojure.string :as str]
             [malli.core :as m]
@@ -12,7 +10,11 @@
   (:gen-class))
 
 ;; a schema for a java.io.File
+;; TODO should be in files namespace, but what about ensure-dir for debugging?
 (def File [:fn {:error/message "expected java.io.File"} #(instance? java.io.File %)])
+
+;; a schema for a java.io.Writer
+(def Writer [:fn {:error/message "expected java.io.Writer"} #(instance? java.io.Writer %)])
 
 (defn ensure-dir
   "Ensure directory exists"
@@ -29,42 +31,11 @@
   (let [w (clojure.java.io/writer (io/file "debug" (format "%s.edn" name)))]
     (pp/pprint data w)))
 
-(defn yaml-files
-  "Return all YAML files in directory."
-  {:malli/schema [:-> File [:seqable File]]}
-  [dir-path]
-  (->> (.listFiles (io/file dir-path))
-       (filter #(.isFile %))
-       (filter #(-> % .getName (.endsWith ".yaml")))))
-
-(defn base-name
-  "Return base name of file without extension."
-  [file-name]
-  (let [last-dot (.lastIndexOf file-name ".")]
-    (if (neg? last-dot)
-      file-name
-      (subs file-name 0 last-dot))
-    ))
-
 (def Spec
   "Base schema for any spec."
   [:map
    [:meta [:map
-           [:name :string]
-           [:dir :string]]]])
-
-(defn get-spec
-  "Get the spec as a map from a YAML file, inserting its name and dir as metadata."
-  {:malli/schema [:-> File Spec]}
-  [yaml-file]
-  (let [name (base-name (.getName yaml-file))
-        dir (.getParent yaml-file)
-        spec (yaml/from-file yaml-file)
-        annotated-spec (assoc spec :meta {:name name, :dir dir})]
-    annotated-spec
-    ))
-
-;;(meta #'get-spec)
+           [:name :string]]]])
 
 (defn spec-name
   "Get the name of the spec from its metadata."
@@ -84,12 +55,6 @@
               [:id :string]
               [:name :string]]]]))
 
-(defn get-instrument-spec
-  "Read a YAML file as an instrument spec."
-  {:malli/schema [:-> File InstrumentSpec]}
-  [yaml-file]
-  (get-spec yaml-file))
-
 (def LayoutSpec
   "A spec for an layout."
   (mu/merge
@@ -106,12 +71,6 @@
             [:column-gutter-large :int]
             [:column-gutter-small :int]]]]))
 
-(defn get-layout-spec
-  "Read a YAML file as a layout spec."
-  {:malli/schema [:-> File LayoutSpec]}
-  [yaml-file]
-  (get-spec yaml-file))
-
 (def StyleSpec
   "A spec for a style."
   (mu/merge
@@ -120,22 +79,7 @@
     [:text [:map
             [:font :string]
             [:size :int]]]
-    [:fill [:vector :string]]]))
-
-(defn get-style-spec
-  "Read a YAML file as a style spec."
-  {:malli/schema [:-> File StyleSpec]}
-  [yaml-file]
-  (get-spec yaml-file))
-
-(defn build-paths
-  "Return paths for output files."
-  [build-dir instrument-name layout-name style-name]
-  (let [out-path (fn [ext]
-                   (->> (io/file build-dir (format "%s.%s.%s%s" instrument-name layout-name style-name ext)) .getPath))]
-    {:typst {:out-path (out-path ".typ")}
-     :pdf {:out-path (out-path ".pdf")}
-     }))
+    [:fill [:sequential :string]]]))
 
 (defn get-field-indices
   "Return indices of field-names in header, assumed to be present."
@@ -149,25 +93,37 @@
   [l defaults]
   (map (fn [x d] (if (empty? x) d x)) l defaults))
 
+(def Cat
+  "A category name."
+  :string)
+
 (def Cats
   "Category names"
-  [:vector :string])
+  [:sequential :string])
 
-(def Subcat
-  "Sub-category with its index in the global list of all subcats (for colouring)."
-  [:tuple :int :string])  ; [index name]
+(def Colour
+  "Unbounded colour index used to generate actual colours by `mod`"
+  :int)
 
-(def Subcats
+(def ColouredSubcat
+  "Sub-category with its colour."
+  [:tuple Colour :string])  ; [index name]
+
+(def ColouredSubcats
   "List of sub-categories each with its index."
-  [:sequential Subcat])
+  [:sequential ColouredSubcat])
 
-(def SubcatsByCat
+(def ColouredSubcatsByCat
   "Map of sub-category by category name, where the sub-categories appear with their index in the overall list of all sub-categories."
-  [:map-of :string Subcats])
+  [:map-of :string ColouredSubcats])
 
 (def Tone
   "A tone with its id."
   [:tuple :string :string]) ; [id name]
+
+(def ColouredTone
+  "A tone/id with colour."
+  [:tuple Colour Tone]) ; [id name]
 
 (def Tones
   "A list of tones."
@@ -181,47 +137,47 @@
   "Map returned by `get-tones`, indexed by cat."
   [:map-of :string TonesBySubcat])
 
+(def ColouredTonesOrSubcatsOrNil
+  "List of optional coloured tone or coloured subcat."
+  [:sequential [:maybe [:or ColouredTone ColouredSubcat]]])
+
 (defn get-tones
-  "Return the cats, subcats, and tones, with blank entries in the CSV propagated from last non-blank value in that column."
-  {:malli/schema [:-> InstrumentSpec [:tuple Cats SubcatsByCat TonesBySubcatByCat]]}
-  [instrument]
-  (let [tones-file (io/file "resources/instruments" (str (spec-name instrument) ".csv"))]
-    (with-open [reader (io/reader tones-file)]
-      (let [rows (csv/read-csv reader)
-            field-names (map #(get-in instrument [:header %]) [:category :sub-category :id :name])
-            blank-fields (map (fn [_] "") field-names)
-            field-indices (get-field-indices field-names (first rows))
-            field-getters (map #(fn [row] (get row %)) field-indices)
-            row-mapper (fn [row] (map #(% row) field-getters))
-            mapped-rows (map row-mapper (rest rows))
-            tone-list (reverse (first (reduce (fn [[rows defaults] row]
-                                                            (let [merged (nonblank-or-default row defaults)]
-                                                              [(conj rows merged) merged]))
-                                                          ['() blank-fields] mapped-rows)))
-            cats (vec (distinct (map #(nth % 0) tone-list)))
-            cat-subcats (map-indexed #(vector %1 %2) (distinct (map (fn [row] [(nth row 0) (nth row 1)]) tone-list)))
-            reversed-subcats (reduce (fn [m [i-subcat [cat subcat]]]
-                                                (update m cat #(conj % [i-subcat subcat]))) {} cat-subcats)
-            subcats (into {} (map (fn [[k v]] [k (reverse v)]) reversed-subcats))
-            tones (reduce (fn [m [cat subcat id name]]
-                               (update-in m [cat subcat] #(conj % [id name])))
-                             {}
-                             (reverse tone-list))
-            ]
-        (dump-edn "cats" cats)
-        (dump-edn "subcats" subcats)
-        (dump-edn "tones" tones)
-        [cats subcats tones]
-        ))))
+  "Return the cats, subcats, and tones from the raw tones list, with blank entries in the CSV propagated from last non-blank value in that column."
+  {:malli/schema [:=> [:cat InstrumentSpec [:vector [:vector :string]]] [:tuple Cats ColouredSubcatsByCat TonesBySubcatByCat]]}
+  [instrument raw-tones]
+  (let [field-names (map #(get-in instrument [:header %]) [:category :sub-category :id :name])
+        blank-fields (map (fn [_] "") field-names)
+        field-indices (get-field-indices field-names (first raw-tones))
+        field-getters (map #(fn [row] (get row %)) field-indices)
+        row-mapper (fn [row] (map #(% row) field-getters))
+        mapped-rows (map row-mapper (rest raw-tones))
+        tone-list (reverse (first (reduce (fn [[rows defaults] row]
+                                            (let [merged (nonblank-or-default row defaults)]
+                                              [(conj rows merged) merged]))
+                                          ['() blank-fields] mapped-rows)))
+        cats (vec (distinct (map #(nth % 0) tone-list)))
+        cat-subcats (map-indexed #(vector %1 %2) (distinct (map (fn [row] [(nth row 0) (nth row 1)]) tone-list)))
+        reversed-subcats (reduce (fn [m [i-subcat [cat subcat]]]
+                                   (update m cat #(conj % [i-subcat subcat]))) {} cat-subcats)
+        subcats (into {} (map (fn [[k v]] [k (reverse v)]) reversed-subcats))
+        tones (reduce (fn [m [cat subcat id name]]
+                        (update-in m [cat subcat] #(conj % [id name])))
+                      {}
+                      (reverse tone-list))]
+    (dump-edn "cats" cats)
+    (dump-edn "subcats" subcats)
+    (dump-edn "tones" tones)
+    [cats subcats tones]
+    ))
 
-(def Columns
-  "Result of `split-columns`"
-  [:sequential [:tuple :string [:vector [:tuple :int :string]]]])
+(def Column
+  "A column comprising its category and the list of coloured sub-categories or tones, filled with nil."
+  [:tuple :string ColouredTonesOrSubcatsOrNil])
 
-(defn split-columns
+(defn partition-cat-into-columns
   "From a map of sub-categories create a list of group lists of same size, with last filled with nil.
    Subcategory names appear inline in the lists occupying a slot."
-  {:malli/schema [:=> [:cat :int :string Subcats TonesBySubcat] :any]}
+  {:malli/schema [:=> [:cat :int :string ColouredSubcats TonesBySubcat] [:sequential Column]]}
   [size cat subcats tones]
   (let [safe-cat (-> cat
                      (str/replace " " "-")
@@ -243,12 +199,25 @@
               columns)
     columns))
 
-(defn collate-groups
-  "Collate groups across all columns"
+(defn partition-into-columns
+  "Collate all columns by partitioning for each category."
+  {:malli/schema [:=> [:cat :int Cats ColouredSubcatsByCat TonesBySubcatByCat] [:sequential Column]]}
   [size cats subcats tones]
-  (let [groups (mapcat (fn [cat] (split-columns size cat (subcats cat) (tones cat))) cats)]
-    (dump-edn "groups" groups)
-    groups))
+  (let [columns (mapcat (fn [cat] (partition-cat-into-columns size cat (subcats cat) (tones cat))) cats)]
+    (dump-edn "columns" columns)
+    columns))
+
+(def Page
+  "A page's width of columns."
+  [:vector Column])
+
+(defn partition-columns-into-pages
+  "Partition according to the page width in columns."
+  {:malli/schema [:=> [:cat :int [:sequential Column]] [:sequential Page]]}
+  [page-width columns]
+  (let [pages (map vec (partition page-width columns))]
+    (dump-edn "pages" pages)
+    pages))
 
 (defn pt
   "Return size in points."
@@ -302,32 +271,31 @@
 
 (defn format-page
   "Return whole page formatted."
-  [layout style cols]
-  (let [col-cats (map first cols)
-        cat-freqs (frequencies col-cats)
-        cats-with-counts (map (fn [c] [c (cat-freqs c)]) (distinct col-cats))
+  {:malli/schema [:=> [:cat LayoutSpec StyleSpec Page] :string]}
+  [layout style page]
+  (let [page-cats (map first page)
+        cat-freqs (frequencies page-cats)
+        cats-with-counts (map (fn [c] [c (cat-freqs c)]) (distinct page-cats))
         vlines (rest (reverse (second (reduce (fn [[total xs] [_ freq]] [(+ total freq) (conj xs total)]) [0 ()]  cats-with-counts))))
-        body-rows (apply map vector (map #(nth % 1) cols))
+        body-rows (apply map vector (map #(nth % 1) page))
         dummy (dump-edn "body-rows" body-rows)
         header (str (apply str (map #(format-header-cell % layout) cats-with-counts)) "grid.hline(),")
         body (map #(apply str %) (map-indexed #(format-body-row %1 %2 vlines layout style) body-rows))
         grid-begin (str (format "#pagebreak(weak:true)\n#grid(columns:%d,\n"
-                                (* 2 (count cols)))
+                                (* 2 (count page)))
                         (apply str (map #(format "grid.vline(x: %d),\n" (* 2 %)) vlines)))
         grid-end "\n)\n"
         ]
     (str grid-begin (str/join "\n" (conj body header)) grid-end)
     ))
 
-(defn create-cheatsheet
+(defn write-cheatsheet
   "Write out cheatsheet to paths specified in `build`,"
-  {:malli/schema [:=> [:cat File LayoutSpec StyleSpec [:sequential :string]] :nil]}
-  [out-path layout style formatted-pages]
+  {:malli/schema [:=> [:cat Writer LayoutSpec StyleSpec [:sequential :string]] :nil]}
+  [w layout style formatted-pages]
   (let [text (style :text)
-        page (layout :page)]
-    (ensure-dir (.getParent out-path))
-    (with-open [out-f (io/writer out-path)]
-      (let [header (format "#set text(font: \"%s\", size: %s)
+        page (layout :page)
+        header (format "#set text(font: \"%s\", size: %s)
 
 #set page(
   width: %s,
@@ -335,14 +303,14 @@
   margin: %s,
 )
 "
-                           (text :font)
-                           (pt (text :size))
-                           (page :width)
-                           (page :height)
-                           (page :margin)
-                           )
-            trailer ""]
-        (.write out-f header)
-        (doseq [page formatted-pages]
-          (.write out-f page))
-        (.write out-f trailer)))))
+                       (text :font)
+                       (pt (text :size))
+                       (page :width)
+                       (page :height)
+                       (page :margin)
+                       )
+        trailer ""]
+    (.write w header)
+    (doseq [page formatted-pages]
+      (.write w page))
+    (.write w trailer)))
