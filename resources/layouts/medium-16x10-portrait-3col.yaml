@@ -1,0 +1,11 @@
+unit: "pt"
+page:
+  width: 470
+  height: 800
+  margin: 4
+grid:
+  rows: 47
+  cols: 3
+  row-gutter: 10
+  column-gutter-large: 18
+  column-gutter-small: 6
