@@ -29,3 +29,4 @@
 /build/
 /debug/
 .~lock*
+.DS_Store
